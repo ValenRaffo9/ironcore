@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Nutrición</title>
+  <link rel="stylesheet" href="../css/nutricion.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span
+        class="logo-core">CORE</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href = '../index.html'">
+        Inicio
+      </button>
+      <button class="nav-tab" onclick="location.href = 'ejercicios.html'">
+        Ejercicios
+      </button>
+      <button class="nav-tab" onclick="location.href = 'rutinas.html'">
+        Rutinas
+      </button>
+      <button class="nav-tab" onclick="location.href = 'calculadoras.html'">
+        Calculadoras
+      </button>
+      <button class="nav-tab" onclick="location.href = 'progreso.html'">
+        Progreso
+      </button>
+      <button class="nav-tab active">Nutrición</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px">
+      <!-- Se llena con JS -->
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-title">Nutrición</div>
+    <div class="page-sub">Alimentos, platos y calculadora de macros</div>
+  </div>
+
+  <!-- INTRO BANNER -->
+  <div class="nutri-intro-banner">
+    <div class="nutri-banner-items">
+      <div class="nutri-banner-item">
+        <span class="nutri-banner-emoji">🥩</span>
+        <div>
+          <strong>Alimentos</strong> — Tabla completa con macros por 100g.
+          Buscá cualquier alimento.
+        </div>
+      </div>
+      <div class="nutri-banner-item">
+        <span class="nutri-banner-emoji">🍽️</span>
+        <div>
+          <strong>Platos</strong> — Comidas del día a día con macros totales
+          calculados.
+        </div>
+      </div>
+      <div class="nutri-banner-item">
+        <span class="nutri-banner-emoji">🧮</span>
+        <div>
+          <strong>Calculadora</strong> — Escribís el alimento, ponés los
+          gramos y te calcula los macros al instante.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="nutri-tabs">
+    <button class="nutri-tab active" onclick="switchTab('alimentos', this)">
+      🥩 Alimentos
+    </button>
+    <button class="nutri-tab" onclick="switchTab('platos', this)">
+      🍽️ Platos
+    </button>
+    <button class="nutri-tab" onclick="switchTab('calculadora', this)">
+      🧮 Calculadora
+    </button>
+  </div>
+
+  <div class="nutri-layout">
+    <!-- ── ALIMENTOS ── -->
+    <div class="nutri-panel active" id="panel-alimentos">
+      <div class="alimentos-controles">
+        <input type="text" id="buscador-alimentos" class="nutri-search" placeholder="Buscar alimento..." />
+        <div class="categoria-btns" id="categoriaBtns">
+          <button class="cat-btn active" onclick="filtrarCategoria('todos', this)">
+            Todos
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('carnes', this)">
+            🥩 Carnes
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('pescados', this)">
+            🐟 Pescados
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('lacteos', this)">
+            🥛 Lácteos
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('huevos', this)">
+            🥚 Huevos
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('cereales', this)">
+            🌾 Cereales
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('legumbres', this)">
+            🫘 Legumbres
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('verduras', this)">
+            🥦 Verduras
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('frutas', this)">
+            🍎 Frutas
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('grasas', this)">
+            🫒 Grasas
+          </button>
+          <button class="cat-btn" onclick="filtrarCategoria('suplementos', this)">
+            💊 Suplementos
+          </button>
+        </div>
+      </div>
+
+      <div class="tabla-wrap">
+        <table class="tabla-alimentos">
+          <thead>
+            <tr>
+              <th>Alimento</th>
+              <th>Calorías</th>
+              <th>Proteínas</th>
+              <th>Carbos</th>
+              <th>Grasas</th>
+            </tr>
+          </thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+      </div>
+      <div class="tabla-nota">
+        * Valores por 100g de alimento crudo/sin preparar salvo indicación
+        contraria.
+      </div>
+    </div>
+
+    <!-- ── PLATOS ── -->
+    <div class="nutri-panel" id="panel-platos">
+      <div class="platos-filtros">
+        <button class="cat-btn active" onclick="filtrarPlatos('todos', this)">
+          Todos
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('desayuno', this)">
+          🌅 Desayuno
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('almuerzo', this)">
+          ☀️ Almuerzo
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('cena', this)">
+          🌙 Cena
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('snack', this)">
+          🍎 Snack
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('pre', this)">
+          ⚡ Pre-entreno
+        </button>
+        <button class="cat-btn" onclick="filtrarPlatos('post', this)">
+          💪 Post-entreno
+        </button>
+      </div>
+      <div class="platos-grid" id="platosGrid"></div>
+    </div>
+
+    <!-- ── CALCULADORA ── -->
+    <div class="nutri-panel" id="panel-calculadora">
+      <div class="calc-nutri-wrap">
+        <div class="calc-nutri-form">
+          <div class="calc-nutri-titulo">Calculá los macros de tu comida</div>
+          <div class="calc-nutri-desc">Buscá un alimento o plato, elegís los gramos y lo agregás.</div>
+
+          <div class="calc-add-row">
+            <div class="calc-search-wrap">
+              <input type="text" id="calc-buscador" class="nutri-search" placeholder="Buscar alimento o plato...">
+              <div class="calc-dropdown" id="calcDropdown" style="display:none"></div>
+            </div>
+            <div class="num-input-wrap" style="width:110px">
+              <input type="number" id="calc-gramos" placeholder="g" min="1" max="2000">
+              <div class="num-arrows">
+                <button class="num-arrow" type="button" onclick="cambiarGramos(10)">▲</button>
+                <button class="num-arrow" type="button" onclick="cambiarGramos(-10)">▼</button>
+              </div>
+            </div>
+            <button class="calc-add-btn" onclick="agregarAlimento()">+ Agregar</button>
+          </div>
+
+          <div id="calc-lista" class="calc-lista"></div>
+        </div>
+
+        <div class="calc-nutri-resultado" id="calcResultado">
+          <div class="calc-res-titulo">Total del día</div>
+          <div class="calc-res-grid">
+            <div class="calc-res-item">
+              <div class="calc-res-num" id="total-cal">0</div>
+              <div class="calc-res-label">kcal</div>
+            </div>
+            <div class="calc-res-item">
+              <div class="calc-res-num naranja" id="total-prot">0g</div>
+              <div class="calc-res-label">Proteínas</div>
+            </div>
+            <div class="calc-res-item">
+              <div class="calc-res-num azul" id="total-carb">0g</div>
+              <div class="calc-res-label">Carbos</div>
+            </div>
+            <div class="calc-res-item">
+              <div class="calc-res-num verde" id="total-gras">0g</div>
+              <div class="calc-res-label">Grasas</div>
+            </div>
+          </div>
+          <div class="calc-barra-wrap">
+            <div class="calc-barra-item" id="barra-prot" style="background:#ff6a00"></div>
+            <div class="calc-barra-item" id="barra-carb" style="background:#3a7bd5"></div>
+            <div class="calc-barra-item" id="barra-gras" style="background:#2a9d5c"></div>
+          </div>
+          <button class="calc-limpiar-btn" onclick="limpiarCalc()">Limpiar todo</button>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <script type="module" src="../js/auth-nav.js"></script>
+    <script src="../js/nutricion.js"></script>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo">IronCore</div>
+        <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.
+        </div>
+        <div class="footer-links">
+          <a href="../pages/ejercicios.html">Ejercicios</a>
+          <a href="../pages/rutinas.html">Rutinas</a>
+          <a href="../pages/calculadoras.html">Calculadoras</a>
+          <a href="../pages/progreso.html">Progreso</a>
+          <a href="../pages/nutricion.html">Nutrición</a>
+          <a href="../pages/chat.html">Chat IA</a>
+        </div>
+        <div class="footer-contacto">
+          ¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+        </div>
+        <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+      </div>
+    </footer>
+</body>
+
+</html>

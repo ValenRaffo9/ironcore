@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Mi Rutina</title>
+  <link rel="stylesheet" href="../css/mi-rutina.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'">
+      <span class="logo-iron">IRON</span><span class="logo-core">CORE</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab active" onclick="location.href='rutinas.html'">Rutinas</button>
+      <button class="nav-tab" onclick="location.href='calculadoras.html'">Calculadoras</button>
+      <button class="nav-tab" onclick="location.href='progreso.html'">Progreso</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px;position:relative"></div>
+  </nav>
+
+  <div class="page-header">
+    <button class="back-btn" onclick="location.href='rutinas.html'">← Volver</button>
+    <div>
+      <div class="page-title">Mi rutina personalizada</div>
+      <div class="page-sub">Creá tu propia rutina desde cero</div>
+    </div>
+  </div>
+
+  <div class="mirutina-layout">
+
+    <!-- CONFIGURACIÓN -->
+    <div class="mirutina-section">
+      <div class="mirutina-titulo">Configuración</div>
+      <div class="mirutina-form">
+        <div class="form-group">
+          <label>Nombre de la rutina</label>
+          <input type="text" id="rutina-nombre" placeholder="Ej: Mi rutina de volumen">
+        </div>
+        <div class="form-group">
+          <label>Días por semana</label>
+          <div class="dias-btns" id="diasBtns">
+            <button class="dia-btn" onclick="selDias(1, this)">1</button>
+            <button class="dia-btn" onclick="selDias(2, this)">2</button>
+            <button class="dia-btn" onclick="selDias(3, this)">3</button>
+            <button class="dia-btn" onclick="selDias(4, this)">4</button>
+            <button class="dia-btn" onclick="selDias(5, this)">5</button>
+            <button class="dia-btn" onclick="selDias(6, this)">6</button>
+            <button class="dia-btn" onclick="selDias(7, this)">7</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÍAS -->
+    <div class="mirutina-section">
+      <div class="mirutina-titulo">Ejercicios por día</div>
+      <div id="diasContainer" class="dias-container"></div>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="mirutina-acciones">
+      <button class="mirutina-btn" onclick="guardarRutina()">💾 Guardar rutina</button>
+      <button class="mirutina-btn secundario" onclick="descargarRutina()">⬇️ Descargar .txt</button>
+      <button class="mirutina-btn secundario" onclick="limpiarRutina()">🗑️ Limpiar todo</button>
+    </div>
+
+    <!-- RUTINAS GUARDADAS -->
+    <div class="mirutina-section" id="seccionGuardadas" style="display:none">
+      <div class="mirutina-titulo">Mis rutinas guardadas</div>
+      <div id="rutinasGuardadas"></div>
+    </div>
+
+  </div>
+
+  <script type="module" src="../js/auth-nav.js"></script>
+  <script src="../js/mi-rutina.js"></script>
+</body>
+</html>

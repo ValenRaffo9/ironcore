@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronCore - Ejercicios</title>
+    <link rel="stylesheet" href="../css/ejercicios.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <meta name="theme-color" content="#ff6a00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IronCore">
+    <link rel="apple-touch-icon" href="../img/icon-192.png">
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span class="logo-core">CORE</span></div>
+      <div class="nav-tabs">
+        <button class="nav-tab" onclick="location.href = '../index.html'">
+          Inicio
+        </button>
+        <button class="nav-tab active">Ejercicios</button>
+        <button class="nav-tab" onclick="location.href = 'rutinas.html'">
+          Rutinas
+        </button>
+        <button class="nav-tab" onclick="location.href = 'calculadoras.html'">
+          Calculadoras
+        </button>
+        <button class="nav-tab" onclick="location.href = 'progreso.html'">
+          Progreso
+        </button>
+        <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+        <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+      </div>
+        <div id="nav-user" style="display:flex;align-items:center;gap:8px;position:relative"></div>        <!-- Se llena con JS -->
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="page-title">Guía de ejercicios</div>
+      <div class="page-sub">Filtrá por músculo, equipamiento y dificultad</div>
+    </div>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="ejercicios-layout">
+      <!-- SIDEBAR FILTROS -->
+      <aside class="filtros-sidebar">
+        <div class="sidebar-header">
+          <span>Filtrar</span>
+          <button class="filter-clear" onclick="clearFilters()">
+            Limpiar todo
+          </button>
+        </div>
+
+        <!-- BUSCADOR -->
+        <div class="sidebar-search">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Buscar ejercicio..."
+            id="searchInput"
+            oninput="applyFilters()"
+          />
+        </div>
+
+        <!-- MÚSCULO -->
+        <div class="sidebar-group">
+          <div
+            class="sidebar-group-header"
+            onclick="toggleGroup('muscleGroup')"
+          >
+            <span>Músculo</span>
+            <span class="sidebar-arrow" id="muscleGroupArrow">▲</span>
+          </div>
+          <div class="sidebar-group-body" id="muscleGroup">
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="todos"
+                onchange="toggleMuscle('todos', this)"
+                checked
+              />
+              Todos
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="pecho"
+                onchange="toggleMuscle('pecho', this)"
+              />
+              Pecho
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="espalda"
+                onchange="toggleMuscle('espalda', this)"
+              />
+              Espalda
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="piernas"
+                onchange="toggleMuscle('piernas', this)"
+              />
+              Piernas
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="hombros"
+                onchange="toggleMuscle('hombros', this)"
+              />
+              Hombros
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="biceps"
+                onchange="toggleMuscle('biceps', this)"
+              />
+              Bíceps
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="triceps"
+                onchange="toggleMuscle('triceps', this)"
+              />
+              Tríceps
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="abdomen"
+                onchange="toggleMuscle('abdomen', this)"
+              />
+              Abdomen
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="gluteos"
+                onchange="toggleMuscle('gluteos', this)"
+              />
+              Glúteos
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="antebrazos"
+                onchange="toggleMuscle('antebrazos', this)"
+              />
+              Antebrazos
+            </label>
+          </div>
+        </div>
+
+        <!-- EQUIPAMIENTO -->
+        <div class="sidebar-group">
+          <div class="sidebar-group-header" onclick="toggleGroup('eqGroup')">
+            <span>Equipamiento</span>
+            <span class="sidebar-arrow" id="eqGroupArrow">▲</span>
+          </div>
+          <div class="sidebar-group-body" id="eqGroup">
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="poleas"
+                onchange="toggleEq('poleas', this)"
+              />
+              Poleas
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="barra"
+                onchange="toggleEq('barra', this)"
+              />
+              Barra
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="mancuernas"
+                onchange="toggleEq('mancuernas', this)"
+              />
+              Mancuernas
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="máquina"
+                onchange="toggleEq('máquina', this)"
+              />
+              Máquina
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="sin equipo"
+                onchange="toggleEq('sin equipo', this)"
+              />
+              Sin equipo
+            </label>
+          </div>
+        </div>
+
+        <!-- DIFICULTAD -->
+        <div class="sidebar-group">
+          <div class="sidebar-group-header" onclick="toggleGroup('difGroup')">
+            <span>Dificultad</span>
+            <span class="sidebar-arrow" id="difGroupArrow">▲</span>
+          </div>
+          <div class="sidebar-group-body" id="difGroup">
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="principiante"
+                onchange="toggleDif('principiante', this)"
+              />
+              Principiante
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="intermedio"
+                onchange="toggleDif('intermedio', this)"
+              />
+              Intermedio
+            </label>
+            <label class="sidebar-option">
+              <input
+                type="checkbox"
+                value="avanzado"
+                onchange="toggleDif('avanzado', this)"
+              />
+              Avanzado
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <div class="ejercicios-contenido">
+        <div class="results-count" id="resultsCount"></div>
+        <div class="exercises-grid" id="exercisesGrid"></div>
+        <div class="paginacion" id="paginacion"></div>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal">
+          <div class="modal-header">
+            <div>
+              <div class="modal-title" id="mTitle"></div>
+              <div class="modal-meta">
+                <span class="modal-muscle-tag" id="mMuscle"></span>
+                <span class="dif-badge" id="mDif"></span>
+              </div>
+            </div>
+            <button class="modal-close" onclick="closeModalDirect()">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-section">
+              <div class="modal-section-title">Músculos trabajados</div>
+              <div class="muscles-row" id="mMuscles"></div>
+            </div>
+            <div class="modal-section">
+              <div class="modal-section-title">Series y repeticiones</div>
+              <div class="sets-grid" id="mSets"></div>
+            </div>
+            <div class="modal-section">
+              <div class="modal-section-title">Cómo hacerlo</div>
+              <ul class="steps-list" id="mSteps"></ul>
+            </div>
+            <div class="modal-section">
+              <div class="modal-section-title">Errores comunes</div>
+              <ul class="errors-list" id="mErrors"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/ejercicios.js"></script>
+    <script src="script.js"></script>
+    <script type="module" src="../js/auth-nav.js"></script>
+
+    <footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">IronCore</div>
+    <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.</div>
+    <div class="footer-links">
+      <a href="../pages/ejercicios.html">Ejercicios</a>
+      <a href="../pages/rutinas.html">Rutinas</a>
+      <a href="../pages/calculadoras.html">Calculadoras</a>
+      <a href="../pages/progreso.html">Progreso</a>
+      <a href="../pages/nutricion.html">Nutrición</a>
+      <a href="../pages/chat.html">Chat IA</a>
+    </div>
+    <div class="footer-contacto">
+      ¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+    </div>
+    <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+  </div>
+</footer>
+  </body>
+</html>

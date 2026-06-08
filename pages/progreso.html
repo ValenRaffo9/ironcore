@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Progreso</title>
+  <link rel="stylesheet" href="../css/progreso.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span class="logo-core">CORE</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab" onclick="location.href='rutinas.html'">Rutinas</button>
+      <button class="nav-tab" onclick="location.href='calculadoras.html'">Calculadoras</button>
+      <button class="nav-tab active">Progreso</button>
+      <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px;position:relative"></div> <!-- Se llena con JS -->
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-title">Mi progreso</div>
+    <div class="page-sub">Registrá tu peso, medidas y entrenamientos</div>
+  </div>
+
+  <div class="resumen-bar">
+    <div class="resumen-item">
+      <div class="resumen-num" id="res-racha">0</div>
+      <div class="resumen-label">Racha actual 🔥</div>
+    </div>
+    <div class="resumen-item">
+      <div class="resumen-num" id="res-mes">0</div>
+      <div class="resumen-label">Días entrenados este mes</div>
+    </div>
+    <div class="resumen-item">
+      <div class="resumen-num" id="res-peso-inicial">—</div>
+      <div class="resumen-label">Peso inicial (kg)</div>
+    </div>
+    <div class="resumen-item">
+      <div class="resumen-num" id="res-peso-actual">—</div>
+      <div class="resumen-label">Peso actual (kg)</div>
+    </div>
+    <div class="resumen-item">
+      <div class="resumen-num" id="res-diferencia">—</div>
+      <div class="resumen-label">Diferencia (kg)</div>
+    </div>
+  </div>
+
+  <div class="prog-tabs">
+    <button class="prog-tab active" onclick="switchTab('peso', this)">⚖️ Peso</button>
+    <button class="prog-tab" onclick="switchTab('medidas', this)">📏 Medidas</button>
+    <button class="prog-tab" onclick="switchTab('workouts', this)">🏋️ Workouts</button>
+    <button class="prog-tab" onclick="switchTab('nutricion', this)">🍽️ Nutrición</button>
+    <button class="prog-tab" onclick="switchTab('calendario', this)">📅 Calendario</button>
+    <button class="prog-tab" onclick="switchTab('agua', this)">💧 Agua</button>
+  </div>
+
+  <div class="prog-layout">
+
+    <!-- ── PESO ── -->
+    <div class="prog-panel active" id="panel-peso">
+      <div class="panel-section">
+        <div class="panel-titulo">Registrar peso</div>
+        <div class="registro-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Peso <span class="unit">kg</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="peso-input" placeholder="75.5" step="0.1" min="30" max="300">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('peso-input', 0.1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('peso-input', -0.1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <div class="fecha-custom">
+                <div class="fecha-input-wrap">
+                  <input type="number" class="fecha-dia" id="peso-dia" placeholder="DD" min="1" max="31"
+                    oninput="validarFechaInput(this, 1, 31)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-mes" id="peso-mes" placeholder="MM" min="1" max="12"
+                    oninput="validarFechaInput(this, 1, 12)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-anio" id="peso-anio" placeholder="AAAA" min="2020" max="2099"
+                    oninput="validarAnioInput(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nota (opcional)</label>
+            <input type="text" id="peso-nota" placeholder="Ej: después de entrenar...">
+          </div>
+          <div id="peso-error" class="error-msg-prog" style="display:none"></div>
+          <button class="prog-btn" onclick="guardarPeso()">Guardar peso</button>
+          <div id="peso-success" class="success-msg" style="display:none">✅ Peso guardado correctamente</div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-titulo">Evolución de peso</div>
+        <div class="chart-wrap"><canvas id="chartPeso"></canvas></div>
+        <div class="historial-lista" id="historial-peso"></div>
+      </div>
+    </div>
+
+    <!-- ── MEDIDAS ── -->
+    <div class="prog-panel" id="panel-medidas">
+      <div class="panel-section">
+        <div class="panel-titulo">Registrar medidas</div>
+        <div class="registro-form">
+          <div class="medidas-grid">
+            <div class="form-group">
+              <label>Pecho <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-pecho" placeholder="100" min="50" max="200">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-pecho', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-pecho', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cintura <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-cintura" placeholder="80" min="40" max="200">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-cintura', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-cintura', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cadera <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-cadera" placeholder="95" min="50" max="200">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-cadera', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-cadera', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Brazo derecho <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-brazo-d" placeholder="38" min="20" max="80">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-brazo-d', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-brazo-d', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Brazo izquierdo <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-brazo-i" placeholder="37" min="20" max="80">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-brazo-i', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-brazo-i', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Muslo derecho <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-muslo-d" placeholder="58" min="30" max="100">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-muslo-d', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-muslo-d', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Muslo izquierdo <span class="unit">cm</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="med-muslo-i" placeholder="57" min="30" max="100">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-muslo-i', 1)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('med-muslo-i', -1)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <div class="fecha-custom">
+                <div class="fecha-input-wrap">
+                  <input type="number" class="fecha-dia" id="med-dia" placeholder="DD" min="1" max="31"
+                    oninput="validarFechaInput(this, 1, 31)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-mes" id="med-mes" placeholder="MM" min="1" max="12"
+                    oninput="validarFechaInput(this, 1, 12)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-anio" id="med-anio" placeholder="AAAA" min="2020" max="2099"
+                    oninput="validarAnioInput(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="medidas-error" class="error-msg-prog" style="display:none"></div>
+          <button class="prog-btn" onclick="guardarMedidas()">Guardar medidas</button>
+          <div id="medidas-success" class="success-msg" style="display:none">✅ Medidas guardadas correctamente</div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-titulo">Historial de medidas</div>
+        <div class="historial-lista" id="historial-medidas"></div>
+      </div>
+    </div>
+
+    <!-- ── WORKOUTS ── -->
+    <div class="prog-panel" id="panel-workouts">
+      <div class="panel-section">
+        <div class="panel-titulo">Registrar entrenamiento</div>
+        <div class="registro-form">
+          <div class="form-group">
+            <label>Tipo de entrenamiento</label>
+            <div class="workout-tipos" id="workoutTipos">
+              <div class="workout-grupo-label">Splits</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Upper', this)">⬆️ Upper</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Lower', this)">⬇️ Lower</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Full Body', this)">💥 Full Body</button>
+
+              <div class="workout-grupo-label">PPL</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('PPL — Push', this)">💪 Push</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('PPL — Pull', this)">🔙 Pull</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('PPL — Legs', this)">🦵 Legs</button>
+
+              <div class="workout-grupo-label">Arnold Split</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Arnold — Pecho + Espalda', this)">🏋️
+                Pecho + Espalda</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Arnold — Hombros + Brazos', this)">🏔
+                Hombros + Brazos</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Arnold — Piernas', this)">🦿
+                Piernas</button>
+
+              <div class="workout-grupo-label">Weider / Músculo del día</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Pecho', this)">🏆 Pecho</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Espalda', this)">🗻 Espalda</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Piernas', this)">🦿 Piernas</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Hombros', this)">🏔 Hombros</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Brazos', this)">💪 Brazos</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Pecho + Espalda', this)">💪 Pecho +
+                Espalda</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Hombros + Brazos', this)">🏆 Hombros +
+                Brazos</button>
+
+              <div class="workout-grupo-label">Calistenia</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Calistenia — Empuje', this)">🤸
+                Empuje</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Calistenia — Tirón', this)">🔝
+                Tirón</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Calistenia — Piernas', this)">🦵
+                Piernas</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Calistenia — Full Body', this)">💥 Full
+                Body</button>
+
+              <div class="workout-grupo-label">Otros</div>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Heavy Duty', this)">💀 Heavy
+                Duty</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Cardio', this)">🏃 Cardio</button>
+              <button class="workout-tipo-btn" type="button" onclick="selTipo('Movilidad / Stretching', this)">🧘
+                Movilidad</button>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Fecha</label>
+              <div class="fecha-custom">
+                <div class="fecha-input-wrap">
+                  <input type="number" class="fecha-dia" id="workout-dia" placeholder="DD" min="1" max="31"
+                    oninput="validarFechaInput(this, 1, 31)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-mes" id="workout-mes" placeholder="MM" min="1" max="12"
+                    oninput="validarFechaInput(this, 1, 12)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-anio" id="workout-anio" placeholder="AAAA" min="2020" max="2099"
+                    oninput="validarAnioInput(this)">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Duración <span class="unit">min (opcional)</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="workout-duracion" placeholder="60" min="10" max="300">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('workout-duracion', 5)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('workout-duracion', -5)">▼</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notas (opcional)</label>
+            <textarea id="workout-notas" placeholder="Ej: aumenté en press banca, sentí bien los hombros..."
+              rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Registrar pesos (opcional)</label>
+            <div class="prs-wrap" id="prsWrap">
+              <div class="pr-input-row">
+                <input type="text" id="pr-ejercicio" placeholder="Ejercicio (ej: Press banca)">
+                <div class="num-input-wrap" style="width:120px">
+                  <input type="number" id="pr-peso" placeholder="kg" min="1" max="500">
+                  <div class="num-arrows">
+                    <button class="num-arrow" type="button" onclick="cambiarValorProg('pr-peso', 2.5)">▲</button>
+                    <button class="num-arrow" type="button" onclick="cambiarValorProg('pr-peso', -2.5)">▼</button>
+                  </div>
+                </div>
+                <button class="pr-add-btn" type="button" onclick="window.agregarPR()">+ Agregar</button>
+              </div>
+              <div class="pr-lista" id="prLista"></div>
+            </div>
+          </div>
+          <div id="workout-error" class="error-msg-prog" style="display:none"></div>
+          <button class="prog-btn" onclick="guardarWorkout()">Registrar entrenamiento</button>
+          <div id="workout-success" class="success-msg" style="display:none">✅ Entrenamiento registrado</div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-titulo">Historial de entrenamientos</div>
+        <div class="historial-lista" id="historial-workouts"></div>
+      </div>
+      <div class="panel-section" style="margin-top:1.5rem">
+  <div class="panel-titulo">🏆 Mis récords personales</div>
+  <div id="listaPRs" class="historial-lista"></div>
+</div>
+    </div>
+
+    <div class="prog-panel" id="panel-nutricion">
+      <div class="panel-section">
+        <div class="panel-titulo">Registrar calorías del día</div>
+        <div class="registro-form">
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Calorías totales <span class="unit">kcal</span></label>
+              <div class="num-input-wrap">
+                <input type="number" id="nutri-calorias" placeholder="2000" min="500" max="6000">
+                <div class="num-arrows">
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('nutri-calorias', 50)">▲</button>
+                  <button class="num-arrow" type="button" onclick="cambiarValorProg('nutri-calorias', -50)">▼</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <div class="fecha-custom">
+                <div class="fecha-input-wrap">
+                  <input type="number" class="fecha-dia" id="nutri-dia" placeholder="DD" min="1" max="31"
+                    oninput="validarFechaInput(this, 1, 31)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-mes" id="nutri-mes" placeholder="MM" min="1" max="12"
+                    oninput="validarFechaInput(this, 1, 12)">
+                  <span class="fecha-sep">/</span>
+                  <input type="number" class="fecha-anio" id="nutri-anio" placeholder="AAAA" min="2020" max="2099"
+                    oninput="validarAnioInput(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Notas (opcional)</label>
+            <input type="text" id="nutri-notas" placeholder="Ej: día de volumen, comí limpio...">
+          </div>
+
+          <div id="nutri-error" class="error-msg-prog" style="display:none"></div>
+          <button class="prog-btn" onclick="guardarNutricion()">Guardar calorías del día</button>
+          <div id="nutri-success" class="success-msg" style="display:none">✅ Calorías registradas correctamente</div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-titulo">Historial calórico</div>
+        <div class="historial-lista" id="historial-nutricion"></div>
+      </div>
+    </div>
+
+
+    <!-- ── CALENDARIO ── -->
+    <div class="prog-panel" id="panel-calendario">
+      <div class="panel-section">
+        <div class="cal-nav">
+          <button class="cal-nav-btn" type="button" onclick="cambiarMes(-1)">←</button>
+          <div class="cal-mes-titulo" id="calMesTitulo"></div>
+          <button class="cal-nav-btn" type="button" onclick="cambiarMes(1)">→</button>
+        </div>
+        <div class="cal-leyenda">
+          <span class="cal-leyenda-item"><span class="cal-dot entrenado"></span>Entrenado</span>
+          <span class="cal-leyenda-item"><span class="cal-dot descanso"></span>Descanso</span>
+          <span class="cal-leyenda-item"><span class="cal-dot hoy"></span>Hoy</span>
+        </div>
+        <div class="calendario-grid" id="calendarioGrid"></div>
+        <div class="cal-detalle" id="calDetalle" style="display:none">
+          <div class="cal-detalle-fecha" id="calDetalleFecha"></div>
+          <div class="cal-detalle-content" id="calDetalleContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGUA -->
+    <div class="prog-panel" id="panel-agua">
+      <div class="panel-section">
+        <div class="panel-titulo">Hidratación del día</div>
+
+        <div class="agua-display">
+          <div class="agua-cantidad">
+            <span id="agua-ml">0</span>
+            <span class="agua-unidad">ml</span>
+          </div>
+          <div class="agua-litros-wrap">
+            <span id="agua-litros">0.0</span> L de <span id="agua-meta">3.0</span> L
+            <span class="agua-pct-badge" id="agua-pct">0%</span>
+          </div>
+        </div>
+
+        <div class="agua-barra-wrap">
+          <div class="agua-barra-fill" id="agua-barra"></div>
+        </div>
+
+        <div class="agua-btns">
+          <button class="agua-btn" onclick="window.agregarAgua(250)">
+            <span class="agua-btn-ml">+250ml</span>
+            <span class="agua-btn-sub">1 vaso</span>
+          </button>
+          <button class="agua-btn" onclick="window.agregarAgua(500)">
+            <span class="agua-btn-ml">+500ml</span>
+            <span class="agua-btn-sub">1 botella chica</span>
+          </button>
+          <button class="agua-btn" onclick="window.agregarAgua(750)">
+            <span class="agua-btn-ml">+750ml</span>
+            <span class="agua-btn-sub">1 botella grande</span>
+          </button>
+          <button class="agua-btn" onclick="window.agregarAgua(1000)">
+            <span class="agua-btn-ml">+1L</span>
+            <span class="agua-btn-sub">1 litro</span>
+          </button>
+        </div>
+
+        <button class="agua-reset-btn" onclick="window.resetearAgua()">↺ Resetear el día</button>
+
+        <div class="agua-info">
+          💡 La meta de 3 litros es una referencia general. Tu necesidad real depende del peso,
+          actividad física y temperatura. Si entrenás, agregá al menos 500ml extra.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../js/progreso.js"></script>
+  <script type="module" src="../js/auth-nav.js"></script>
+
+  <footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">IronCore</div>
+    <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.</div>
+    <div class="footer-links">
+      <a href="../pages/ejercicios.html">Ejercicios</a>
+      <a href="../pages/rutinas.html">Rutinas</a>
+      <a href="../pages/calculadoras.html">Calculadoras</a>
+      <a href="../pages/progreso.html">Progreso</a>
+      <a href="../pages/nutricion.html">Nutrición</a>
+      <a href="../pages/chat.html">Chat IA</a>
+    </div>
+    <div class="footer-contacto">
+      ¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+    </div>
+    <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+  </div>
+  </footer>
+</body>
+
+</html>

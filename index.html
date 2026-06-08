@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronCore</title>
+    <link rel="stylesheet" href="index.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6a00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IronCore">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="nav-logo" onclick="location.href = 'index.html'">
+        <span class="logo-iron">IRON</span><span class="logo-core">CORE</span>
+      </div>
+      <div class="nav-tabs">
+        <a href="index.html" class="nav-tab active">Inicio</a>
+        <button
+          class="nav-tab"
+          onclick="location.href = 'pages/ejercicios.html'"
+        >
+          Ejercicios
+        </button>
+        <button class="nav-tab" onclick="location.href = 'pages/rutinas.html'">
+          Rutinas
+        </button>
+        <button
+          class="nav-tab"
+          onclick="location.href = 'pages/calculadoras.html'"
+        >
+          Calculadoras
+        </button>
+        <button class="nav-tab" onclick="location.href = 'pages/progreso.html'">
+          Progreso
+        </button>
+        <button
+          class="nav-tab"
+          onclick="location.href = 'pages/nutricion.html'"
+        >
+          Nutrición
+        </button>
+        <button class="nav-tab" onclick="location.href = 'pages/chat.html'">
+          Chat IA
+        </button>
+      </div>
+      <div id="nav-user" style="display: flex; align-items: center; gap: 8px">
+        <!-- Se llena con JS -->
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">Tu zona de entrenamiento</div>
+      <div class="hero-title">Forjá tu mejor<br /><span>versión</span></div>
+      <div class="hero-sub">
+        Todo lo que necesitás para entrenar, calcular y evolucionar. Sin
+        excusas.
+      </div>
+      <div class="hero-btns">
+        <button
+          class="hero-btn"
+          onclick="location.href = 'pages/registro.html'"
+        >
+          Empezar ahora
+        </button>
+        <button
+          class="hero-btn ghost"
+          onclick="location.href = 'pages/rutinas.html'"
+        >
+          Ver rutinas
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar animate">
+      <div class="stat-item">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">Ejercicios</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">9</div>
+        <div class="stat-label">Rutinas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Calculadoras</div>
+      </div>
+    </div>
+
+    <!-- SECCIONES PRINCIPALES -->
+    <div class="section animate">
+      <div class="section-label">Secciones principales</div>
+      <div class="cards-grid">
+        <div class="card" onclick="location.href = 'pages/ejercicios.html'">
+          <div class="card-icon">💪</div>
+          <div class="card-title">Guía de ejercicios</div>
+          <div class="card-desc">
+            Buscá por músculo, equipamiento o dificultad
+          </div>
+          <div class="card-arrow">→</div>
+        </div>
+        <div class="card" onclick="location.href = 'pages/rutinas.html'">
+          <div class="card-icon">🏋️</div>
+          <div class="card-title">Rutinas</div>
+          <div class="card-desc">
+            PPL, Full Body, Arnold Split, Calistenia y más
+          </div>
+          <div class="card-arrow">→</div>
+        </div>
+        <div class="card" onclick="location.href = 'pages/calculadoras.html'">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Calculadoras</div>
+          <div class="card-desc">Calorías, macros, IMC y repetición máxima</div>
+          <div class="card-arrow">→</div>
+        </div>
+        <div class="card" onclick="location.href = 'pages/progreso.html'">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Mi progreso</div>
+          <div class="card-desc">Registrá peso, medidas y workouts diarios</div>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOBRE IRONCORE -->
+    <div class="sobre-section animate">
+      <div class="sobre-texto">
+        <div class="section-label" style="margin-bottom: 1rem">
+          Quién está detrás
+        </div>
+        <h2 class="sobre-titulo">
+          Hecho por alguien<br />que <span>entrena de verdad</span>
+        </h2>
+        <p class="sobre-desc">
+          IronCore nació de la necesidad de tener todo en un solo lugar. Sin
+          apps de pago, sin registros, sin publicidad. Solo entrenamiento.
+          <br /><br />
+          Soy alguien que entrena, que sabe lo que es buscar una rutina en diez
+          lugares distintos, calcular calorías en otro, y terminar sin hacer
+          nada. Por eso armé esto: una herramienta simple, directa y completa
+          para que el único problema sea levantarte e ir a entrenar.
+        </p>
+        <div class="sobre-items">
+          <div class="sobre-item">
+            <span class="sobre-icon">💪</span>
+            <div>
+              <div class="sobre-item-title">Ejercicios reales</div>
+              <div class="sobre-item-desc">
+                Con técnica, errores comunes y series recomendadas
+              </div>
+            </div>
+          </div>
+          <div class="sobre-item">
+            <span class="sobre-icon">🎯</span>
+            <div>
+              <div class="sobre-item-title">Rutinas que funcionan</div>
+              <div class="sobre-item-desc">
+                Probadas y organizadas por objetivo y nivel
+              </div>
+            </div>
+          </div>
+          <div class="sobre-item">
+            <span class="sobre-icon">⚡</span>
+            <div>
+              <div class="sobre-item-title">Sin vueltas</div>
+              <div class="sobre-item-desc">
+                Gratis, rápido y desde cualquier dispositivo
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sobre-imagen">
+        <img
+          src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600"
+          alt="Gym"
+        />
+      </div>
+    </div>
+
+    <!-- ACCESO RÁPIDO -->
+    <div class="quick-section animate">
+      <div class="section-label">Acceso rápido</div>
+      <div class="quick-grid">
+        <div
+          class="quick-card"
+          onclick="location.href = 'pages/calculadoras.html'"
+        >
+          <div class="quick-icon-wrap">⏱</div>
+          <div>
+            <div class="quick-label">Calculadoras</div>
+            <div class="quick-sub">Calorías, macros y más</div>
+          </div>
+          <div class="quick-arrow">→</div>
+        </div>
+        <div class="quick-card" onclick="location.href = 'pages/progreso.html'">
+          <div class="quick-icon-wrap">💧</div>
+          <div>
+            <div class="quick-label">Mi progreso</div>
+            <div class="quick-sub">Peso, medidas y workouts</div>
+          </div>
+          <div class="quick-arrow">→</div>
+        </div>
+        <div class="quick-card" onclick="location.href = 'pages/rutinas.html'">
+          <div class="quick-icon-wrap">🎯</div>
+          <div>
+            <div class="quick-label">Rutinas</div>
+            <div class="quick-sub">Encontrá tu programa</div>
+          </div>
+          <div class="quick-arrow">→</div>
+        </div>
+        <div
+          class="quick-card"
+          onclick="location.href = 'pages/ejercicios.html'"
+        >
+          <div class="quick-icon-wrap">💪</div>
+          <div>
+            <div class="quick-label">Ejercicios</div>
+            <div class="quick-sub">Buscá por músculo o equipo</div>
+          </div>
+          <div class="quick-arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJETIVOS -->
+    <div class="objetivos-section animate">
+      <div class="section-label">¿Cuál es tu objetivo?</div>
+      <div class="objetivos-grid">
+        <div
+          class="objetivo-card"
+          onclick="location.href = 'pages/rutinas.html'"
+        >
+          <div class="objetivo-icon">🏆</div>
+          <div class="objetivo-title">Ganar masa</div>
+          <div class="objetivo-desc">
+            Rutinas y dieta para volumen. Alta proteína y superávit calórico.
+          </div>
+          <div class="objetivo-link">Ver rutinas →</div>
+        </div>
+        <div
+          class="objetivo-card"
+          onclick="location.href = 'pages/calculadoras.html'"
+        >
+          <div class="objetivo-icon">🔥</div>
+          <div class="objetivo-title">Perder grasa</div>
+          <div class="objetivo-desc">
+            Déficit calórico controlado. Calculá tus calorías de mantenimiento.
+          </div>
+          <div class="objetivo-link">Calcular →</div>
+        </div>
+        <div
+          class="objetivo-card"
+          onclick="location.href = 'pages/rutinas.html'"
+        >
+          <div class="objetivo-icon">⚖️</div>
+          <div class="objetivo-title">Mantenimiento</div>
+          <div class="objetivo-desc">
+            Sostené tu físico. Entrenamiento consistente y macros balanceados.
+          </div>
+          <div class="objetivo-link">Ver rutinas →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNER VISUAL -->
+    <div class="banner-visual">
+      <div
+        class="banner-item"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&quot;);
+        "
+      >
+        <div class="banner-overlay">
+          <div class="banner-titulo">Más de 100 ejercicios</div>
+          <div class="banner-sub">
+            Con técnica, errores y músculos trabajados
+          </div>
+          <button
+            class="banner-btn"
+            onclick="location.href = 'pages/ejercicios.html'"
+          >
+            Ver ejercicios →
+          </button>
+        </div>
+      </div>
+      <div
+        class="banner-item"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=600&quot;);
+        "
+      >
+        <div class="banner-overlay">
+          <div class="banner-titulo">Rutinas para tu objetivo</div>
+          <div class="banner-sub">PPL, Full Body, Arnold Split y más</div>
+          <button
+            class="banner-btn"
+            onclick="location.href = 'pages/rutinas.html'"
+          >
+            Ver rutinas →
+          </button>
+        </div>
+      </div>
+      <div
+        class="banner-item"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&quot;);
+        "
+      >
+        <div class="banner-overlay">
+          <div class="banner-titulo">Nutrición completa</div>
+          <div class="banner-sub">
+            Calculá tus macros y encontrá tus alimentos
+          </div>
+          <button
+            class="banner-btn"
+            onclick="location.href = 'pages/nutricion.html'"
+          >
+            Ver nutrición →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOTIVACIONAL -->
+    <div class="motivational animate">
+      <div class="mot-inner">
+        <div class="mot-comilla">"</div>
+        <div class="mot-text">
+          No se trata de cómo te sentís. Se trata de lo que hacés cuando no te
+          sentís bien.
+        </div>
+        <div class="mot-author">— Mentalidad gym</div>
+      </div>
+    </div>
+
+    <script type="module" src="js/auth-nav.js"></script>
+    <script src="script.js"></script>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo">IronCore</div>
+        <div class="footer-desc">
+          Tu zona de entrenamiento. Todo lo que necesitás para entrenar,
+          calcular y evolucionar.
+        </div>
+        <div class="footer-links">
+          <a href="pages/ejercicios.html">Ejercicios</a>
+          <a href="pages/rutinas.html">Rutinas</a>
+          <a href="pages/calculadoras.html">Calculadoras</a>
+          <a href="pages/progreso.html">Progreso</a>
+          <a href="pages/nutricion.html">Nutrición</a>
+          <a href="pages/chat.html">Chat IA</a>
+        </div>
+        <div class="footer-contacto">
+          ¿Consultas o sugerencias?
+          <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+        </div>
+        <div class="footer-copy">
+          © 2025 IronCore — Hecho con 💪 en Argentina
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

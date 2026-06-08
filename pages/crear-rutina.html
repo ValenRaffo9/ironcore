@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Crear Rutina con IA</title>
+  <link rel="stylesheet" href="../css/crear-rutina.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span class="logo-core">CORE</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab active" onclick="location.href='rutinas.html'">Rutinas</button>
+      <button class="nav-tab" onclick="location.href='calculadoras.html'">Calculadoras</button>
+      <button class="nav-tab" onclick="location.href='progreso.html'">Progreso</button>
+      <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px">
+      <!-- Se llena con JS -->
+    </div>
+  </nav>
+
+  <div class="creator-header">
+    <button class="back-btn" onclick="location.href='rutinas.html'">← Volver a rutinas</button>
+    <div class="creator-header-text">
+      <div class="page-title">Crear rutina con IA ✨</div>
+      <div class="page-sub">Respondé las preguntas y la IA te arma una rutina personalizada</div>
+    </div>
+  </div>
+
+  <div class="creator-layout">
+
+    <div class="questions-panel" id="questionsPanel">
+
+      <!-- STEP 1 -->
+      <div class="step active" id="step1">
+        <div class="step-num">01</div>
+        <div class="step-titulo">¿Cuántos días por semana podés entrenar?</div>
+        <div class="step-opciones">
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('dias', '2', this)">2 días</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('dias', '3', this)">3 días</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('dias', '4', this)">4 días</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('dias', '5', this)">5 días</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('dias', '6', this)">6 días</button>
+        </div>
+        <div class="custom-input-wrap">
+          <div class="num-input-wrap" style="flex:1">
+            <input type="number" id="custom-dias" class="custom-input" placeholder="Número del 1 al 7" min="1" max="7" oninput="validarInputDias(this)">
+            <div class="num-arrows">
+              <button class="num-arrow" type="button" onclick="cambiarCustomDias(1)">▲</button>
+              <button class="num-arrow" type="button" onclick="cambiarCustomDias(-1)">▼</button>
+            </div>
+          </div>
+          <button type="button" onclick="agregarCustomDias()">+ Agregar</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" id="step2">
+        <button class="volver-btn" type="button" onclick="volverPaso()">← Volver</button>
+        <div class="step-num">02</div>
+        <div class="step-titulo">¿Cuál es tu nivel de experiencia?</div>
+        <div class="step-opciones">
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('nivel', 'principiante', this)">🟢 Principiante<span>Menos de 1 año entrenando</span></button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('nivel', 'intermedio', this)">🟡 Intermedio<span>1 a 3 años entrenando</span></button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('nivel', 'avanzado', this)">🔴 Avanzado<span>Más de 3 años entrenando</span></button>
+        </div>
+        <div class="custom-input-wrap">
+          <input type="text" id="custom-nivel" class="custom-input" placeholder="Describí tu nivel con tus palabras...">
+          <button type="button" onclick="agregarCustomNivel()">+ Agregar</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" id="step3">
+        <button class="volver-btn" type="button" onclick="volverPaso()">← Volver</button>
+        <div class="step-num">03</div>
+        <div class="step-titulo">¿Cuál es tu objetivo principal?</div>
+        <div class="step-opciones">
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('objetivo', 'volumen', this)">💪 Ganar masa muscular</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('objetivo', 'fuerza', this)">🏋️ Ganar fuerza</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('objetivo', 'estetica', this)">✨ Estética y definición</button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('objetivo', 'general', this)">⚖️ Fitness general</button>
+        </div>
+        <div class="custom-input-wrap">
+          <input type="text" id="custom-objetivo" class="custom-input" placeholder="Otro objetivo...">
+          <button type="button" onclick="agregarCustomObjetivo()">+ Agregar</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" id="step4">
+        <button class="volver-btn" type="button" onclick="volverPaso()">← Volver</button>
+        <div class="step-num">04</div>
+        <div class="step-titulo">¿Qué equipamiento tenés disponible?</div>
+        <div class="step-opciones">
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('equipo', 'gym_completo', this)">🏢 Gimnasio completo<span>Barras, mancuernas, máquinas, poleas</span></button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('equipo', 'mancuernas', this)">🏠 Mancuernas y poco más<span>En casa con equipamiento básico</span></button>
+          <button class="opcion-btn" type="button" onclick="seleccionarOpcion('equipo', 'calistenia', this)">🤸 Sin equipamiento<span>Solo peso corporal</span></button>
+        </div>
+        <div class="custom-input-wrap">
+          <input type="text" id="custom-equipo" class="custom-input" placeholder="Otro equipamiento (ej: bandas, kettlebells...)">
+          <button type="button" onclick="agregarCustomEquipo()">+ Agregar</button>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step" id="step5">
+        <button class="volver-btn" type="button" onclick="volverPaso()">← Volver</button>
+        <div class="step-num">05</div>
+        <div class="step-titulo">¿Tenés algún punto débil o músculo que querés priorizar?</div>
+        <div class="step-opciones multi" id="prioridadOpciones">
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'hombros', this)">🏔 Hombros</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'pecho', this)">💪 Pecho</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'espalda', this)">🔙 Espalda</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'piernas', this)">🦵 Piernas</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'brazos', this)">💪 Brazos</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'abdomen', this)">⚡ Abdomen</button>
+          <button class="opcion-btn multi-btn" type="button" onclick="toggleMulti('prioridad', 'ninguno', this)">✅ Sin prioridad específica</button>
+        </div>
+        <div class="custom-input-wrap">
+          <input type="text" id="prioridadCustom" class="custom-input" placeholder="Otro músculo (ej: gemelos, antebrazos...)">
+          <button type="button" onclick="agregarCustom()">+ Agregar</button>
+        </div>
+        <div id="aviso-prioridad" class="aviso-msg" style="display:none">
+          ⚠️ Seleccioná una opción o marcá "Sin prioridad específica" antes de continuar.
+        </div>
+        <button class="siguiente-btn" type="button" onclick="generarRutina()">✨ Generar mi rutina</button>
+      </div>
+
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="resultadoPanel" style="display:none"></div>
+
+  </div>
+
+  <script type="module" src="../js/auth-nav.js"></script>
+  <script src="../js/crear-rutina.js"></script>
+</body>
+</html>

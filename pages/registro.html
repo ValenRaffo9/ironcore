@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Crear cuenta</title>
+  <link rel="stylesheet" href="../css/auth.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo" onclick="location.href='../index.html'">IronCore</div>
+      <div class="auth-titulo">Crear cuenta</div>
+      <div class="auth-sub">Guardá tu progreso y accedé desde cualquier dispositivo</div>
+
+      <div class="auth-form">
+        <div class="form-group">
+          <label>Nombre de usuario</label>
+          <input type="text" id="reg-nombre" placeholder="Tu nombre o apodo" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="tu@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <div class="pass-input-wrap">
+            <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" oninput="validarPass()">
+            <button class="ojo-btn" type="button" onclick="togglePass('reg-pass', this)">👁</button>
+          </div>
+          <div class="pass-requisitos" id="passRequisitos">
+            <div class="req-item" id="req-len"><span class="req-dot"></span>Mínimo 8 caracteres</div>
+            <div class="req-item" id="req-may"><span class="req-dot"></span>Al menos una mayúscula</div>
+            <div class="req-item" id="req-num"><span class="req-dot"></span>Al menos un número</div>
+            <div class="req-item" id="req-esp"><span class="req-dot"></span>Al menos un carácter especial (!@#$...)</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirmar contraseña</label>
+          <div class="pass-input-wrap">
+            <input type="password" id="reg-pass2" placeholder="Repetí tu contraseña" autocomplete="new-password" oninput="validarCoincidencia()">
+            <button class="ojo-btn" type="button" onclick="togglePass('reg-pass2', this)">👁</button>
+          </div>
+          <div class="pass-no-coincide" id="passNoCoincide">✕ Las contraseñas no coinciden</div>
+          <div class="pass-coincide" id="passCoincide">✓ Las contraseñas coinciden</div>
+        </div>
+
+        <div id="reg-error" class="auth-error" style="display:none"></div>
+
+        <button class="auth-btn" id="regBtn" onclick="crearCuenta()">Crear cuenta</button>
+        <button class="auth-btn ghost" onclick="location.href='../index.html'">← Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, createUserWithEmailAndPassword, signOut, doc, setDoc } from '../js/firebase.js';
+
+    window.togglePass = function(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+      else { input.type = 'password'; btn.textContent = '👁'; }
+    };
+
+    window.validarPass = function() {
+      const pass = document.getElementById('reg-pass').value;
+      const checks = {
+        'req-len': pass.length >= 8,
+        'req-may': /[A-Z]/.test(pass),
+        'req-num': /[0-9]/.test(pass),
+        'req-esp': /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass),
+      };
+      Object.entries(checks).forEach(([id, ok]) => {
+        const el = document.getElementById(id);
+        el.classList.toggle('ok', ok);
+        el.classList.toggle('fail', pass.length > 0 && !ok);
+      });
+      if (document.getElementById('reg-pass2').value) validarCoincidencia();
+    };
+
+    window.validarCoincidencia = function() {
+      const pass  = document.getElementById('reg-pass').value;
+      const pass2 = document.getElementById('reg-pass2').value;
+      const noCoincide = document.getElementById('passNoCoincide');
+      const coincide   = document.getElementById('passCoincide');
+      if (!pass2) { noCoincide.style.display = 'none'; coincide.style.display = 'none'; return; }
+      if (pass === pass2) { noCoincide.style.display = 'none'; coincide.style.display = 'block'; }
+      else { noCoincide.style.display = 'block'; coincide.style.display = 'none'; }
+    };
+
+    function passEsValida(pass) {
+      return pass.length >= 8 && /[A-Z]/.test(pass) && /[0-9]/.test(pass) &&
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass);
+    }
+
+    window.crearCuenta = async function() {
+      const nombre = document.getElementById('reg-nombre').value.trim();
+      const email  = document.getElementById('reg-email').value.trim();
+      const pass   = document.getElementById('reg-pass').value;
+      const pass2  = document.getElementById('reg-pass2').value;
+      const btn    = document.getElementById('regBtn');
+      const err    = document.getElementById('reg-error');
+
+      err.style.display = 'none';
+      if (!nombre || !email || !pass || !pass2) { err.textContent = '⚠️ Completá todos los campos'; err.style.display = 'block'; return; }
+      if (!passEsValida(pass)) { err.textContent = '⚠️ La contraseña no cumple todos los requisitos'; err.style.display = 'block'; return; }
+      if (pass !== pass2) { err.textContent = '⚠️ Las contraseñas no coinciden'; err.style.display = 'block'; return; }
+
+      btn.textContent = 'Creando cuenta...';
+      btn.disabled    = true;
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await setDoc(doc(db, 'usuarios', cred.user.uid), {
+          nombre, email, creadoEn: new Date().toISOString(),
+        });
+        // Cerrar sesión primero, después redirigir — fix punto 1
+        await signOut(auth);
+        window.location.replace('login.html?registro=ok');
+      } catch (e) {
+        btn.textContent = 'Crear cuenta';
+        btn.disabled    = false;
+        err.style.display = 'block';
+        if (e.code === 'auth/email-already-in-use') err.textContent = '⚠️ Ya existe una cuenta con ese email';
+        else if (e.code === 'auth/invalid-email') err.textContent = '⚠️ El email no es válido';
+        else err.textContent = '⚠️ Error al crear la cuenta. Intentá de nuevo.';
+      }
+    };
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') window.crearCuenta(); });
+  </script>
+</body>
+</html>

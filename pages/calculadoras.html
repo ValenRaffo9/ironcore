@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Calculadoras</title>
+  <link rel="stylesheet" href="../css/calculadoras.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span class="logo-core">CORE</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab" onclick="location.href='rutinas.html'">Rutinas</button>
+      <button class="nav-tab active">Calculadoras</button>
+      <button class="nav-tab" onclick="location.href='progreso.html'">Progreso</button>
+      <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px">
+      <!-- Se llena con JS -->
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-title">Calculadoras</div>
+    <div class="page-sub">Calorías, macros, IMC y repetición máxima</div>
+  </div>
+
+  <!-- INTRO BANNER -->
+  <div class="calc-intro-banner">
+    <div class="calc-intro-banner-inner">
+      <div class="calc-banner-titulo">¿Para qué sirve cada calculadora?</div>
+      <div class="calc-banner-items">
+        <div class="calc-banner-item">
+          <span class="calc-banner-emoji">🔥</span>
+          <div><strong>Calorías (TDEE)</strong> — Calculá cuántas calorías necesitás por día para mantener, perder o ganar peso según tu metabolismo y actividad.</div>
+        </div>
+        <div class="calc-banner-item">
+          <span class="calc-banner-emoji">🥩</span>
+          <div><strong>Macros</strong> — Distribuí esas calorías en proteínas, carbohidratos y grasas según tu objetivo. La base de cualquier dieta seria.</div>
+        </div>
+        <div class="calc-banner-item">
+          <span class="calc-banner-emoji">⚖️</span>
+          <div><strong>IMC</strong> — Índice de masa corporal. Una referencia general — no distingue músculo de grasa, tomalo como orientación.</div>
+        </div>
+        <div class="calc-banner-item">
+          <span class="calc-banner-emoji">🏋️</span>
+          <div><strong>1RM</strong> — Tu repetición máxima estimada. Usala para calcular las cargas de entrenamiento sin llegar al fallo absoluto.</div>
+        </div>
+        <div class="calc-banner-item">
+          <span class="calc-banner-emoji">💧</span>
+          <div><strong>Agua</strong> — Cuántos litros necesitás por día según tu peso, actividad y clima. La hidratación afecta directamente el rendimiento.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="calc-tabs">
+    <button class="calc-tab active" onclick="switchTab('calorias', this)">🔥 Calorías</button>
+    <button class="calc-tab" onclick="switchTab('macros', this)">🥩 Macros</button>
+    <button class="calc-tab" onclick="switchTab('imc', this)">⚖️ IMC</button>
+    <button class="calc-tab" onclick="switchTab('1rm', this)">🏋️ 1RM</button>
+    <button class="calc-tab" onclick="switchTab('agua', this)">💧 Agua</button>
+    <button class="calc-tab" onclick="switchTab('timer', this)">⏱ Timer</button>
+  </div>
+
+  <div class="calc-layout">
+
+    <!-- ── CALORÍAS ── -->
+    <div class="calc-panel active" id="panel-calorias">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Calculadora de calorías (TDEE)</div>
+        <div class="calc-intro-desc">Calculá cuántas calorías necesitás por día según tu metabolismo basal y nivel de actividad. Usamos la fórmula de Mifflin-St Jeor, la más precisa disponible.</div>
+      </div>
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sexo</label>
+            <div class="radio-group">
+              <button class="radio-btn active" id="sexo-m" onclick="setSexo('m', this)">Hombre</button>
+              <button class="radio-btn" id="sexo-f" onclick="setSexo('f', this)">Mujer</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Edad <span class="unit">años</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="cal-edad" placeholder="25" min="10" max="100">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('cal-edad', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('cal-edad', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Peso <span class="unit">kg</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="cal-peso" placeholder="75" min="30" max="300">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('cal-peso', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('cal-peso', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Altura <span class="unit">cm</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="cal-altura" placeholder="175" min="100" max="250">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('cal-altura', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('cal-altura', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Nivel de actividad</label>
+            <select id="cal-actividad">
+              <option value="1.2">Sedentario (sin ejercicio)</option>
+              <option value="1.375">Ligero (1-3 días/semana)</option>
+              <option value="1.55" selected>Moderado (3-5 días/semana)</option>
+              <option value="1.725">Activo (6-7 días/semana)</option>
+              <option value="1.9">Muy activo (2 veces al día)</option>
+            </select>
+          </div>
+        </div>
+        <div id="error-calorias" class="error-msg">⚠️ Completá todos los campos para calcular.</div>
+        <button class="calc-btn" onclick="calcularCalorias()">Calcular →</button>
+      </div>
+      <div class="calc-resultado" id="res-calorias" style="display:none">
+        <div class="resultado-grid">
+          <div class="resultado-item">
+            <div class="resultado-num" id="tmb-num">—</div>
+            <div class="resultado-label">TMB (Metabolismo basal)</div>
+          </div>
+          <div class="resultado-item destacado">
+            <div class="resultado-num" id="tdee-num">—</div>
+            <div class="resultado-label">TDEE (Calorías totales)</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num" id="deficit-num">—</div>
+            <div class="resultado-label">Déficit (−500 kcal)</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num" id="superavit-num">—</div>
+            <div class="resultado-label">Superávit (+300 kcal)</div>
+          </div>
+        </div>
+        <div class="resultado-nota">💡 El TDEE es tu mantenimiento. Restá ~500 kcal para perder grasa o sumá ~300 kcal para ganar masa sin acumular demasiada grasa.</div>
+      </div>
+    </div>
+
+    <!-- ── MACROS ── -->
+    <div class="calc-panel" id="panel-macros">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Calculadora de macros</div>
+        <div class="calc-intro-desc">Distribuí tus calorías en proteínas, carbohidratos y grasas. Los valores se calculan por kg de peso corporal, que es la forma más precisa.</div>
+      </div>
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Calorías diarias <span class="unit">kcal</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="mac-calorias" placeholder="2500" min="1000" max="6000">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('mac-calorias', 50)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('mac-calorias', -50)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Peso corporal <span class="unit">kg</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="mac-peso" placeholder="75" min="30" max="300">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('mac-peso', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('mac-peso', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Objetivo</label>
+            <select id="mac-objetivo">
+              <option value="volumen">Volumen / Ganar masa</option>
+              <option value="mantenimiento" selected>Mantenimiento</option>
+              <option value="definicion">Definición / Perder grasa</option>
+              <option value="fuerza">Fuerza</option>
+            </select>
+          </div>
+        </div>
+        <div id="error-macros" class="error-msg">⚠️ Completá todos los campos para calcular.</div>
+        <button class="calc-btn" onclick="calcularMacros()">Calcular →</button>
+      </div>
+      <div class="calc-resultado" id="res-macros" style="display:none">
+        <div class="macros-visual">
+          <div class="macro-barra-wrap">
+            <div class="macro-barra" id="barra-proteinas" style="background:#ff6a00"></div>
+            <div class="macro-barra" id="barra-carbos" style="background:#3a7bd5"></div>
+            <div class="macro-barra" id="barra-grasas" style="background:#2a9d5c"></div>
+          </div>
+          <div class="macro-leyenda">
+            <span class="leyenda-item"><span class="leyenda-dot" style="background:#ff6a00"></span>Proteínas</span>
+            <span class="leyenda-item"><span class="leyenda-dot" style="background:#3a7bd5"></span>Carbohidratos</span>
+            <span class="leyenda-item"><span class="leyenda-dot" style="background:#2a9d5c"></span>Grasas</span>
+          </div>
+        </div>
+        <div class="resultado-grid tres">
+          <div class="resultado-item">
+            <div class="resultado-num naranja" id="prot-num">—</div>
+            <div class="resultado-label">Proteínas (g)</div>
+            <div class="resultado-sub" id="prot-kcal">—</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num azul" id="carb-num">—</div>
+            <div class="resultado-label">Carbohidratos (g)</div>
+            <div class="resultado-sub" id="carb-kcal">—</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num verde" id="gras-num">—</div>
+            <div class="resultado-label">Grasas (g)</div>
+            <div class="resultado-sub" id="gras-kcal">—</div>
+          </div>
+        </div>
+        <div class="resultado-nota" id="macro-consejo"></div>
+      </div>
+    </div>
+
+    <!-- ── IMC ── -->
+    <div class="calc-panel" id="panel-imc">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Índice de Masa Corporal (IMC)</div>
+        <div class="calc-intro-desc">El IMC es una referencia general de salud. No distingue músculo de grasa — un atleta puede tener IMC alto siendo completamente saludable. Tomalo como orientación, no como verdad absoluta.</div>
+      </div>
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Peso <span class="unit">kg</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="imc-peso" placeholder="75" min="30" max="300">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('imc-peso', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('imc-peso', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Altura <span class="unit">cm</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="imc-altura" placeholder="175" min="100" max="250">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('imc-altura', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('imc-altura', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="error-imc" class="error-msg">⚠️ Completá todos los campos para calcular.</div>
+        <button class="calc-btn" onclick="calcularIMC()">Calcular →</button>
+      </div>
+      <div class="calc-resultado" id="res-imc" style="display:none">
+        <div class="imc-display">
+          <div class="imc-numero" id="imc-num">—</div>
+          <div class="imc-categoria" id="imc-cat">—</div>
+        </div>
+        <div class="imc-barra-wrap">
+          <div class="imc-barra">
+            <div class="imc-zona" style="background:#3a7bd5;flex:1">Bajo peso<br><span>&lt;18.5</span></div>
+            <div class="imc-zona" style="background:#2a9d5c;flex:1.5">Normal<br><span>18.5-25</span></div>
+            <div class="imc-zona" style="background:#cfaa7a;flex:1">Sobrepeso<br><span>25-30</span></div>
+            <div class="imc-zona" style="background:#cf7a7a;flex:1">Obesidad<br><span>&gt;30</span></div>
+          </div>
+          <div class="imc-indicador-wrap">
+            <div class="imc-indicador" id="imc-indicador"></div>
+          </div>
+        </div>
+        <div class="resultado-nota" id="imc-nota"></div>
+      </div>
+    </div>
+
+    <!-- ── 1RM ── -->
+    <div class="calc-panel" id="panel-1rm">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Calculadora de 1RM</div>
+        <div class="calc-intro-desc">Estimá tu repetición máxima sin tener que hacerla. Se usa la fórmula de Epley. Útil para planificar cargas de entrenamiento — si levantaste X kg Y veces, podés estimar cuánto sería tu máximo.</div>
+      </div>
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Peso levantado <span class="unit">kg</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="rm-peso" placeholder="100" min="1" max="500">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('rm-peso', 2.5)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('rm-peso', -2.5)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Repeticiones realizadas</label>
+            <div class="num-input-wrap">
+              <input type="number" id="rm-reps" placeholder="8" min="1" max="30">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('rm-reps', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('rm-reps', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Ejercicio (opcional)</label>
+            <select id="rm-ejercicio">
+              <option value="">Cualquier ejercicio</option>
+              <option value="Sentadilla">Sentadilla</option>
+              <option value="Press banca">Press de banca</option>
+              <option value="Peso muerto">Peso muerto</option>
+              <option value="Press militar">Press militar</option>
+              <option value="Remo con barra">Remo con barra</option>
+            </select>
+          </div>
+        </div>
+        <div id="error-1rm" class="error-msg">⚠️ Completá todos los campos para calcular.</div>
+        <button class="calc-btn" onclick="calcular1RM()">Calcular →</button>
+      </div>
+      <div class="calc-resultado" id="res-1rm" style="display:none">
+        <div class="resultado-grid">
+          <div class="resultado-item destacado">
+            <div class="resultado-num" id="rm-1rm">—</div>
+            <div class="resultado-label">1RM estimado (kg)</div>
+          </div>
+        </div>
+        <div class="rm-tabla">
+          <div class="rm-tabla-titulo">Cargas recomendadas por objetivo</div>
+          <div class="rm-fila encabezado">
+            <span>Objetivo</span><span>% 1RM</span><span>Peso (kg)</span><span>Reps</span>
+          </div>
+          <div class="rm-fila"><span>Fuerza máxima</span><span>90-100%</span><span id="rm-90">—</span><span>1-3</span></div>
+          <div class="rm-fila"><span>Fuerza</span><span>80-90%</span><span id="rm-85">—</span><span>3-5</span></div>
+          <div class="rm-fila"><span>Hipertrofia</span><span>65-80%</span><span id="rm-72">—</span><span>6-12</span></div>
+          <div class="rm-fila"><span>Resistencia</span><span>50-65%</span><span id="rm-57">—</span><span>12-20</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGUA ── -->
+    <div class="calc-panel" id="panel-agua">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Calculadora de hidratación</div>
+        <div class="calc-intro-desc">Calculá cuántos litros de agua necesitás por día. La fórmula base es 33ml por kg de peso, ajustada por actividad y clima. La sed ya es señal de deshidratación.</div>
+      </div>
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Peso <span class="unit">kg</span></label>
+            <div class="num-input-wrap">
+              <input type="number" id="agua-peso" placeholder="75" min="30" max="300">
+              <div class="num-arrows">
+                <button class="num-arrow" onclick="cambiarValor('agua-peso', 1)">▲</button>
+                <button class="num-arrow" onclick="cambiarValor('agua-peso', -1)">▼</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nivel de actividad</label>
+            <select id="agua-actividad">
+              <option value="1">Sedentario</option>
+              <option value="1.2">Ligero (1-3 días/semana)</option>
+              <option value="1.4" selected>Moderado (3-5 días/semana)</option>
+              <option value="1.6">Activo (6-7 días/semana)</option>
+              <option value="1.8">Muy activo</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Clima</label>
+            <select id="agua-clima">
+              <option value="1">Templado</option>
+              <option value="1.1">Caluroso</option>
+              <option value="0.9">Frío</option>
+            </select>
+          </div>
+        </div>
+        <div id="error-agua" class="error-msg">⚠️ Ingresá tu peso para calcular.</div>
+        <button class="calc-btn" onclick="calcularAgua()">Calcular →</button>
+      </div>
+      <div class="calc-resultado" id="res-agua" style="display:none">
+        <div class="resultado-grid">
+          <div class="resultado-item destacado">
+            <div class="resultado-num" id="agua-litros">—</div>
+            <div class="resultado-label">Litros por día</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num" id="agua-vasos">—</div>
+            <div class="resultado-label">Vasos de 250ml</div>
+          </div>
+          <div class="resultado-item">
+            <div class="resultado-num" id="agua-entrenamiento">—</div>
+            <div class="resultado-label">Extra en entrenamiento</div>
+          </div>
+        </div>
+        <div class="resultado-nota">💡 Tomá agua antes, durante y después del entrenamiento. En días de calor o mucho sudor aumentá el consumo.</div>
+      </div>
+    </div>
+
+    <!-- Temporarizador -->
+    <div class="calc-panel" id="panel-timer">
+      <div class="calc-intro">
+        <div class="calc-intro-titulo">Temporizador de descanso</div>
+        <div class="calc-intro-desc">Seleccioná el tiempo de descanso entre series o ingresá uno personalizado.</div>
+      </div>
+
+      <div class="timer-wrap">
+        <div class="timer-display" id="timerDisplay">00:00</div>
+        <div class="timer-status" id="timerStatus">Listo</div>
+
+      <div class="timer-presets">
+        <button class="timer-preset-btn" onclick="setTimer(45)">45s</button>
+        <button class="timer-preset-btn" onclick="setTimer(60)">1 min</button>
+        <button class="timer-preset-btn active" onclick="setTimer(90)">90s</button>
+        <button class="timer-preset-btn" onclick="setTimer(120)">2 min</button>
+        <button class="timer-preset-btn" onclick="setTimer(180)">3 min</button>
+        <button class="timer-preset-btn" onclick="setTimer(240)">4 min</button>
+      </div>
+
+      <div class="timer-custom-row">
+        <div class="num-input-wrap" style="width:100px">
+          <input type="number" id="timer-custom-seg" placeholder="seg" min="5" max="600">
+            <div class="num-arrows">
+              <button class="num-arrow" type="button" onclick="cambiarValor('timer-custom-seg', 5)">▲</button>
+              <button class="num-arrow" type="button" onclick="cambiarValor('timer-custom-seg', -5)">▼</button>
+            </div>
+        </div>
+        <button class="timer-custom-btn" onclick="setTimerCustom()">Usar este tiempo</button>
+      </div>
+
+      <div class="timer-btns">
+        <button class="timer-btn start" id="timerStartBtn" onclick="toggleTimer()">▶ Iniciar</button>
+        <button class="timer-btn reset" onclick="resetTimer()">↺ Resetear</button>
+      </div>
+
+        <div class="timer-barra-wrap">
+          <div class="timer-barra-fill" id="timerBarra"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/auth-nav.js"></script>
+  <script src="../js/calculadoras.js"></script>
+
+  <footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">IronCore</div>
+    <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.</div>
+    <div class="footer-links">
+      <a href="../pages/ejercicios.html">Ejercicios</a>
+      <a href="../pages/rutinas.html">Rutinas</a>
+      <a href="../pages/calculadoras.html">Calculadoras</a>
+      <a href="../pages/progreso.html">Progreso</a>
+      <a href="../pages/nutricion.html">Nutrición</a>
+      <a href="../pages/chat.html">Chat IA</a>
+    </div>
+    <div class="footer-contacto">
+      ¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+    </div>
+    <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+  </div>
+</footer>
+</body>
+</html>

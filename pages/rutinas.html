@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Rutinas</title>
+  <link rel="stylesheet" href="../css/rutinas.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span
+        class="logo-core">CORE</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab active">Rutinas</button>
+      <button class="nav-tab" onclick="location.href='calculadoras.html'">Calculadoras</button>
+      <button class="nav-tab" onclick="location.href='progreso.html'">Progreso</button>
+      <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+      <button class="nav-tab" onclick="location.href='chat.html'">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px">
+      <!-- Se llena con JS -->
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-text">
+      <div class="page-title">Rutinas de entrenamiento</div>
+      <div class="page-sub">Elegí tu rutina según tus días disponibles y objetivo</div>
+    </div>
+    <div class="rutinas-header-btns">
+      <button class="rutinas-header-btn" onclick="location.href='crear-rutina.html'">Crear rutina con IA</button>
+      <button class="rutinas-header-btn" onclick="location.href='mi-rutina.html'">Mi rutina personalizada</button>
+    </div>
+  </div>
+
+  <!-- SECCIÓN EXPLICATIVA -->
+  <div class="rutinas-intro">
+    <div class="intro-principal">
+      <div class="intro-titulo">¿Cómo usar esta sección?</div>
+      <div class="intro-texto">
+        Acá vas a encontrar rutinas organizadas por tipo de división, cantidad de días y nivel.
+        Cada rutina tiene 3 versiones — <strong>Principiante</strong>, <strong>Intermedio</strong> y
+        <strong>Avanzado</strong> —
+        que cambian en volumen, intensidad y selección de ejercicios.
+        Algunos niveles avanzados están basados en rutinas de referentes del fitness como Niko Velaz o Jeff Nippard.
+        También podés <strong>crear tu propia rutina con IA</strong> respondiendo algunas preguntas sobre tu objetivo,
+        nivel y días disponibles.
+      </div>
+    </div>
+
+    <div class="terminos-grid">
+      <div class="termino-card">
+        <div class="termino-titulo">ROM</div>
+        <div class="termino-desc">Range of Motion — Rango de movimiento. "Full ROM" significa que hacés el movimiento
+          completo, sin acortar el recorrido. Más ROM = más estímulo muscular.</div>
+      </div>
+      <div class="termino-card">
+        <div class="termino-titulo">Al fallo</div>
+        <div class="termino-desc">Hacés repeticiones hasta que no podés hacer una más con buena técnica. Alta intensidad
+          — no lo uses en todos los ejercicios ni todas las sesiones.</div>
+      </div>
+      <div class="termino-card">
+        <div class="termino-titulo">RIR</div>
+        <div class="termino-desc">Reps In Reserve — Repeticiones en reserva. RIR 1 significa que parás cuando te queda 1
+          rep más. RIR 2 = 2 reps en reserva. Más controlado que el fallo.</div>
+      </div>
+      <div class="termino-card">
+        <div class="termino-titulo">Sobrecarga progresiva</div>
+        <div class="termino-desc">Subí el peso cuando llegás al límite superior de reps con buena forma. Es el principio
+          más importante para ganar músculo y fuerza.</div>
+      </div>
+      <div class="termino-card">
+        <div class="termino-titulo">Descanso</div>
+        <div class="termino-desc">El tiempo entre series importa. Compuestos pesados (sentadilla, press) necesitan 2-3
+          min. Ejercicios de aislamiento (curl, laterales) con 45-90s es suficiente.</div>
+      </div>
+      <div class="termino-card">
+        <div class="termino-titulo">Músculo sinergista</div>
+        <div class="termino-desc">El músculo que ayuda al principal en el movimiento. Ejemplo: en el press de banca el
+          pectoral es el principal, los tríceps y deltoides son sinergistas.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="rutinas-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="filtros-sidebar">
+      <div class="sidebar-header">
+        <span>Filtrar</span>
+        <button class="filter-clear" onclick="clearFilters()">Limpiar todo</button>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-header" onclick="toggleGroup('diasGroup')">
+          <span>Días por semana</span>
+          <span class="sidebar-arrow" id="diasGroupArrow">▲</span>
+        </div>
+        <div class="sidebar-group-body" id="diasGroup">
+          <label class="sidebar-option"><input type="checkbox" value="2" onchange="toggleDias('2',this)"> 2 días</label>
+          <label class="sidebar-option"><input type="checkbox" value="3" onchange="toggleDias('3',this)"> 3 días</label>
+          <label class="sidebar-option"><input type="checkbox" value="4" onchange="toggleDias('4',this)"> 4 días</label>
+          <label class="sidebar-option"><input type="checkbox" value="5" onchange="toggleDias('5',this)"> 5 días</label>
+          <label class="sidebar-option"><input type="checkbox" value="6" onchange="toggleDias('6',this)"> 6 días</label>
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-header" onclick="toggleGroup('tipoGroup')">
+          <span>Tipo de rutina</span>
+          <span class="sidebar-arrow" id="tipoGroupArrow">▲</span>
+        </div>
+        <div class="sidebar-group-body" id="tipoGroup">
+          <label class="sidebar-option"><input type="checkbox" value="Full Body"
+              onchange="toggleTipo('Full Body',this)"> Full Body</label>
+          <label class="sidebar-option"><input type="checkbox" value="Upper/Lower"
+              onchange="toggleTipo('Upper/Lower',this)"> Upper/Lower</label>
+          <label class="sidebar-option"><input type="checkbox" value="PPL" onchange="toggleTipo('PPL',this)"> Push Pull
+            Legs</label>
+          <label class="sidebar-option"><input type="checkbox" value="PPL/Upper-Lower"
+              onchange="toggleTipo('PPL/Upper-Lower',this)"> PPL + Upper/Lower</label>
+          <label class="sidebar-option"><input type="checkbox" value="Arnold Split"
+              onchange="toggleTipo('Arnold Split',this)"> Arnold Split</label>
+          <label class="sidebar-option"><input type="checkbox" value="Arnold Split/Upper-Lower"
+              onchange="toggleTipo('Arnold Split/Upper-Lower',this)"> Arnold Split + Upper/Lower</label>
+          <label class="sidebar-option"><input type="checkbox" value="Weider" onchange="toggleTipo('Weider',this)">
+            Weider</label>
+          <label class="sidebar-option"><input type="checkbox" value="Heavy Duty"
+              onchange="toggleTipo('Heavy Duty',this)"> Heavy Duty</label>
+          <label class="sidebar-option"><input type="checkbox" value="Calistenia"
+              onchange="toggleTipo('Calistenia',this)"> Calistenia / Casa</label>
+        </div>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-header" onclick="toggleGroup('nivelGroup')">
+          <span>Nivel</span>
+          <span class="sidebar-arrow" id="nivelGroupArrow">▲</span>
+        </div>
+        <div class="sidebar-group-body" id="nivelGroup">
+          <label class="sidebar-option"><input type="checkbox" value="principiante"
+              onchange="toggleNivel('principiante',this)"> Principiante</label>
+          <label class="sidebar-option"><input type="checkbox" value="intermedio"
+              onchange="toggleNivel('intermedio',this)"> Intermedio</label>
+          <label class="sidebar-option"><input type="checkbox" value="avanzado" onchange="toggleNivel('avanzado',this)">
+            Avanzado</label>
+        </div>
+      </div>
+    </aside>
+
+
+
+    <!-- CONTENIDO -->
+    <div class="rutinas-contenido">
+      <div class="scroll-hint"
+        onclick="document.querySelector('.filosofia-section').scrollIntoView({behavior:'smooth'})">
+        💡 ¿Por qué no hay una rutina perfecta? <span>Ver al final ↓</span>
+      </div>
+      <div class="results-count" id="resultsCount"></div>
+      <div class="rutinas-grid" id="rutinasGrid"></div>
+    </div>
+  </div>
+
+
+  </div>
+
+  <!-- MODAL RUTINA -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="mTitle"></div>
+          <div class="modal-meta" id="mMeta"></div>
+        </div>
+        <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      </div>
+      <div class="modal-body" id="mBody"></div>
+    </div>
+  </div>
+
+  <!-- Mensaje -->
+  <div class="filosofia-section">
+    <div class="filosofia-inner">
+      <div class="filosofia-tag">Antes de arrancar</div>
+      <h2 class="filosofia-titulo">No existe la rutina perfecta.<br>Existe <span>la tuya</span>.</h2>
+      <p class="filosofia-texto">
+        Ninguna rutina es la mejor. La que usa CBUM, la que explica Arnold Schwarzenegger, la de Jeff Nippard
+        son referencias, no verdades absolutas. Lo que funciona para un cuerpo puede no funcionar para otro.
+        Lo que te hace crecer a vos depende de cómo dormís, cómo comés, cuánto estrés tenés,
+        tu genética, tu historial de entrenamiento y mil variables más.
+      </p>
+      <p class="filosofia-texto">
+        La clave no es copiar una rutina porque la usa alguien que te gusta o copiarla solo porque a el le funciono.
+        Es probar, escuchar tu cuerpo, entender qué ejercicios sentís mejor,
+        qué volumen aguantás, con qué intensidad progresás. Investigar, aprender y ajustar.
+      </p>
+      <div class="filosofia-pilares">
+        <div class="filosofia-pilar">
+          <div class="filosofia-pilar-titulo">Intensidad</div>
+          <div class="filosofia-pilar-desc">No importa cuántos ejercicios hacés si no los hacés con esfuerzo real. Una
+            serie cerca del fallo vale más que tres series cómodas.</div>
+        </div>
+        <div class="filosofia-pilar">
+          <div class="filosofia-pilar-titulo">Volumen</div>
+          <div class="filosofia-pilar-desc">La cantidad de trabajo que hacés por músculo por semana. Más no siempre es
+            mejor — el cuerpo necesita recuperarse para crecer.</div>
+        </div>
+        <div class="filosofia-pilar">
+          <div class="filosofia-pilar-titulo">Fuerza</div>
+          <div class="filosofia-pilar-desc">Subir el peso progresivamente es la señal más clara de que estás mejorando.
+            Si no progresás en carga o reps, algo hay que cambiar.</div>
+        </div>
+        <div class="filosofia-pilar">
+          <div class="filosofia-pilar-titulo">Alimentacion</div>
+          <div class="filosofia-pilar-desc">La rutina perfecta no te va a dar resultados si no comés bien. El músculo se
+            construye en la cocina tanto como en el gimnasio.</div>
+        </div>
+        <div class="filosofia-pilar">
+          <div class="filosofia-pilar-titulo">Sueño</div>
+          <div class="filosofia-pilar-desc">El músculo no crece mientras entrenás, crece mientras descansás. Dormir bien
+            ayuda a recuperar el cuerpo, rendir mejor y progresar de verdad. Podés entrenar perfecto, pero si descansás
+            mal, tu progreso también lo va a hacer.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/auth-nav.js"></script>
+  <script src="../js/rutinas.js"></script>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">IronCore</div>
+      <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.
+      </div>
+      <div class="footer-links">
+        <a href="../pages/ejercicios.html">Ejercicios</a>
+        <a href="../pages/rutinas.html">Rutinas</a>
+        <a href="../pages/calculadoras.html">Calculadoras</a>
+        <a href="../pages/progreso.html">Progreso</a>
+        <a href="../pages/nutricion.html">Nutrición</a>
+        <a href="../pages/chat.html">Chat IA</a>
+      </div>
+      <div class="footer-contacto">
+        ¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a>
+      </div>
+      <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+    </div>
+  </footer>
+</body>
+
+</html>

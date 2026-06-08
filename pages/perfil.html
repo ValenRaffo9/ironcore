@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IronCore - Mi cuenta</title>
+    <link rel="stylesheet" href="../css/perfil.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <meta name="theme-color" content="#ff6a00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IronCore">
+    <link rel="apple-touch-icon" href="../img/icon-192.png">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-logo" onclick="location.href='../index.html'"><span class="logo-iron">IRON</span><span class="logo-core">CORE</span></div>
+      <div class="nav-tabs">
+        <button class="nav-tab" onclick="location.href = '../index.html'">
+          Inicio
+        </button>
+        <button class="nav-tab" onclick="location.href = 'ejercicios.html'">
+          Ejercicios
+        </button>
+        <button class="nav-tab" onclick="location.href = 'rutinas.html'">
+          Rutinas
+        </button>
+        <button class="nav-tab" onclick="location.href = 'calculadoras.html'">
+          Calculadoras
+        </button>
+        <button class="nav-tab" onclick="location.href = 'progreso.html'">
+          Progreso
+        </button>
+      </div>
+      <div
+        id="nav-user"
+        style="display: flex; align-items: center; gap: 8px; position: relative"
+      ></div>
+    </nav>
+
+    <div class="perfil-wrap">
+      <!-- SIDEBAR -->
+      <div class="perfil-sidebar">
+        <div class="sidebar-avatar">
+          <div class="avatar-circulo" id="sidebarInicial">U</div>
+          <div class="sidebar-nombre" id="sidebarNombre">Cargando...</div>
+          <div class="sidebar-email" id="sidebarEmail"></div>
+        </div>
+        <div class="sidebar-nav">
+          <button
+            class="sidebar-btn active"
+            onclick="mostrarPanel('info', this)"
+          >
+            👤 Mi información
+          </button>
+          <button class="sidebar-btn" onclick="mostrarPanel('nombre', this)">
+            ✏️ Cambiar nombre
+          </button>
+          <button class="sidebar-btn" onclick="mostrarPanel('email', this)">
+            📧 Cambiar email
+          </button>
+          <button class="sidebar-btn" onclick="mostrarPanel('password', this)">
+            🔒 Cambiar contraseña
+          </button>
+          <button
+            class="sidebar-btn danger"
+            onclick="mostrarPanel('eliminar', this)"
+          >
+            🗑️ Eliminar cuenta
+          </button>
+        </div>
+        <div class="sidebar-back">
+          <button class="sidebar-btn" onclick="location.href = '../index.html'">
+            ← Volver al inicio
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTENIDO -->
+      <div class="perfil-content">
+        <!-- INFO -->
+        <div class="perfil-panel active" id="panel-info">
+          <div class="perfil-panel-titulo">Mi información</div>
+          <div class="perfil-panel-sub">Tu perfil de IronCore</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-item-label">Nombre</div>
+              <div class="info-item-valor" id="infoNombre">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-label">Email</div>
+              <div class="info-item-valor" id="infoEmail">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-label">Cuenta creada</div>
+              <div class="info-item-valor" id="infoCreadoEn">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAMBIAR NOMBRE -->
+        <div class="perfil-panel" id="panel-nombre">
+          <div class="perfil-panel-titulo">Cambiar nombre</div>
+          <div class="perfil-panel-sub">Actualizá tu nombre de usuario</div>
+          <div class="perfil-form">
+            <div class="form-group">
+              <label>Nuevo nombre</label>
+              <input
+                type="text"
+                id="nuevo-nombre"
+                placeholder="Tu nombre o apodo"
+              />
+            </div>
+            <div
+              id="nombre-error"
+              class="perfil-error"
+              style="display: none"
+            ></div>
+            <div id="nombre-ok" class="perfil-ok" style="display: none">
+              ✅ Nombre actualizado correctamente
+            </div>
+            <button class="perfil-btn" onclick="cambiarNombre()">
+              Guardar nombre
+            </button>
+          </div>
+        </div>
+
+        <!-- CAMBIAR EMAIL -->
+        <div class="perfil-panel" id="panel-email">
+          <div class="perfil-panel-titulo">Cambiar email</div>
+          <div class="perfil-panel-sub">
+            Necesitás confirmar tu contraseña actual
+          </div>
+          <div class="perfil-form">
+            <div class="form-group">
+              <label>Nuevo email</label>
+              <input
+                type="email"
+                id="nuevo-email"
+                placeholder="nuevo@email.com"
+              />
+            </div>
+            <div class="form-group">
+              <label>Contraseña actual</label>
+              <div class="pass-input-wrap">
+                <input
+                  type="password"
+                  id="email-pass"
+                  placeholder="Para confirmar"
+                />
+                <button
+                  class="ojo-btn"
+                  type="button"
+                  onclick="togglePass('email-pass', this)"
+                >
+                  👁
+                </button>
+              </div>
+            </div>
+            <div
+              id="email-error"
+              class="perfil-error"
+              style="display: none"
+            ></div>
+            <div id="email-ok" class="perfil-ok" style="display: none">
+              ✅ Email actualizado correctamente
+            </div>
+            <button class="perfil-btn" onclick="cambiarEmail()">
+              Guardar email
+            </button>
+          </div>
+        </div>
+
+        <!-- CAMBIAR CONTRASEÑA -->
+        <div class="perfil-panel" id="panel-password">
+          <div class="perfil-panel-titulo">Cambiar contraseña</div>
+          <div class="perfil-panel-sub">
+            La nueva contraseña debe cumplir los requisitos de seguridad
+          </div>
+          <div class="perfil-form">
+            <div class="form-group">
+              <label>Contraseña actual</label>
+              <div class="pass-input-wrap">
+                <input
+                  type="password"
+                  id="pass-actual"
+                  placeholder="Tu contraseña actual"
+                />
+                <button
+                  class="ojo-btn"
+                  type="button"
+                  onclick="togglePass('pass-actual', this)"
+                >
+                  👁
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nueva contraseña</label>
+              <div class="pass-input-wrap">
+                <input
+                  type="password"
+                  id="pass-nueva"
+                  placeholder="Nueva contraseña"
+                  oninput="validarPassNueva()"
+                />
+                <button
+                  class="ojo-btn"
+                  type="button"
+                  onclick="togglePass('pass-nueva', this)"
+                >
+                  👁
+                </button>
+              </div>
+              <div class="pass-requisitos">
+                <div class="req-item" id="pn-len">
+                  <span class="req-dot"></span>Mínimo 8 caracteres
+                </div>
+                <div class="req-item" id="pn-may">
+                  <span class="req-dot"></span>Al menos una mayúscula
+                </div>
+                <div class="req-item" id="pn-num">
+                  <span class="req-dot"></span>Al menos un número
+                </div>
+                <div class="req-item" id="pn-esp">
+                  <span class="req-dot"></span>Al menos un carácter especial
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Confirmar nueva contraseña</label>
+              <div class="pass-input-wrap">
+                <input
+                  type="password"
+                  id="pass-nueva2"
+                  placeholder="Repetí la nueva contraseña"
+                  oninput="validarPassCoincidencia()"
+                />
+                <button
+                  class="ojo-btn"
+                  type="button"
+                  onclick="togglePass('pass-nueva2', this)"
+                >
+                  👁
+                </button>
+              </div>
+              <div class="pass-no-coincide" id="pn-no-coincide">
+                ✕ Las contraseñas no coinciden
+              </div>
+              <div class="pass-coincide" id="pn-coincide">
+                ✓ Las contraseñas coinciden
+              </div>
+            </div>
+            <div
+              id="pass-error"
+              class="perfil-error"
+              style="display: none"
+            ></div>
+            <div id="pass-ok" class="perfil-ok" style="display: none">
+              ✅ Contraseña actualizada correctamente
+            </div>
+            <button class="perfil-btn" onclick="cambiarPassword()">
+              Guardar contraseña
+            </button>
+          </div>
+        </div>
+
+        <!-- ELIMINAR CUENTA -->
+        <div class="perfil-panel" id="panel-eliminar">
+          <div class="perfil-panel-titulo">Eliminar cuenta</div>
+          <div class="perfil-panel-sub">
+            Esta acción es permanente e irreversible
+          </div>
+          <div class="danger-zone">
+            <div class="danger-titulo">⚠️ Zona de peligro</div>
+            <div class="danger-desc">
+              Eliminar tu cuenta borra permanentemente todos tus datos — peso,
+              medidas, workouts y nutrición. Esta acción no se puede deshacer.
+            </div>
+            <div class="perfil-form">
+              <div class="form-group">
+                <label>Contraseña para confirmar</label>
+                <div class="pass-input-wrap">
+                  <input
+                    type="password"
+                    id="delete-pass"
+                    placeholder="Ingresá tu contraseña"
+                  />
+                  <button
+                    class="ojo-btn"
+                    type="button"
+                    onclick="togglePass('delete-pass', this)"
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+              <div
+                id="delete-error"
+                class="perfil-error"
+                style="display: none"
+              ></div>
+              <button class="perfil-btn danger-btn" onclick="eliminarCuenta()">
+                Eliminar mi cuenta permanentemente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL ELIMINAR — fix punto 5 -->
+    <div class="modal-eliminar-overlay" id="modalEliminar">
+      <div class="modal-eliminar-box">
+        <div class="modal-eliminar-icono">⚠️</div>
+        <div class="modal-eliminar-titulo">¿Eliminar tu cuenta?</div>
+        <div class="modal-eliminar-desc">
+          Esta acción es permanente e irreversible. Se borrarán todos tus datos:
+          peso, medidas, workouts y nutrición.
+        </div>
+        <div class="modal-eliminar-btns">
+          <button class="modal-btn-cancelar" onclick="cerrarModalEliminar()">
+            Cancelar
+          </button>
+          <button class="modal-btn-confirmar" onclick="confirmarEliminar()">
+            Sí, eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- fix punto 6 — auth-nav para mostrar avatar en navbar -->
+    <script type="module" src="../js/auth-nav.js"></script>
+
+    <script type="module">
+      import {
+        auth,
+        db,
+        onAuthStateChanged,
+        EmailAuthProvider,
+        reauthenticateWithCredential,
+        updateEmail,
+        updatePassword,
+        deleteUser,
+        doc,
+        getDoc,
+        setDoc,
+        deleteDoc,
+      } from "../js/firebase.js";
+
+      let usuarioActual = null;
+
+      window.mostrarPanel = function (panel, btn) {
+        document
+          .querySelectorAll(".perfil-panel")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".sidebar-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(`panel-${panel}`).classList.add("active");
+        btn.classList.add("active");
+      };
+
+      window.togglePass = function (id, btn) {
+        const input = document.getElementById(id);
+        if (input.type === "password") {
+          input.type = "text";
+          btn.textContent = "🙈";
+        } else {
+          input.type = "password";
+          btn.textContent = "👁";
+        }
+      };
+
+      window.validarPassNueva = function () {
+        const pass = document.getElementById("pass-nueva").value;
+        const checks = {
+          "pn-len": pass.length >= 8,
+          "pn-may": /[A-Z]/.test(pass),
+          "pn-num": /[0-9]/.test(pass),
+          "pn-esp": /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass),
+        };
+        Object.entries(checks).forEach(([id, ok]) => {
+          const el = document.getElementById(id);
+          el.classList.toggle("ok", ok);
+          el.classList.toggle("fail", pass.length > 0 && !ok);
+        });
+        if (document.getElementById("pass-nueva2").value)
+          window.validarPassCoincidencia();
+      };
+
+      window.validarPassCoincidencia = function () {
+        const pass = document.getElementById("pass-nueva").value;
+        const pass2 = document.getElementById("pass-nueva2").value;
+        const no = document.getElementById("pn-no-coincide");
+        const si = document.getElementById("pn-coincide");
+        if (!pass2) {
+          no.style.display = "none";
+          si.style.display = "none";
+          return;
+        }
+        if (pass === pass2) {
+          no.style.display = "none";
+          si.style.display = "block";
+        } else {
+          no.style.display = "block";
+          si.style.display = "none";
+        }
+      };
+
+      function passEsValida(pass) {
+        return (
+          pass.length >= 8 &&
+          /[A-Z]/.test(pass) &&
+          /[0-9]/.test(pass) &&
+          /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass)
+        );
+      }
+
+      function mostrarError(id, msg) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = "⚠️ " + msg;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 5000);
+      }
+
+      function mostrarOk(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 3000);
+      }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          location.href = "login.html";
+          return;
+        }
+        usuarioActual = user;
+
+        const snap = await getDoc(doc(db, "usuarios", user.uid));
+        const data = snap.exists() ? snap.data() : {};
+        const nombre = data.nombre || "Usuario";
+
+        document.getElementById("sidebarInicial").textContent = nombre
+          .charAt(0)
+          .toUpperCase();
+        document.getElementById("sidebarNombre").textContent = nombre;
+        document.getElementById("sidebarEmail").textContent = user.email;
+        document.getElementById("infoNombre").textContent = nombre;
+        document.getElementById("infoEmail").textContent = user.email;
+        document.getElementById("infoCreadoEn").textContent = data.creadoEn
+          ? new Date(data.creadoEn).toLocaleDateString("es-AR")
+          : "—";
+      });
+
+      window.cambiarNombre = async function () {
+        const nombre = document.getElementById("nuevo-nombre").value.trim();
+        if (!nombre || nombre.length < 2) {
+          mostrarError("nombre-error", "Ingresá un nombre válido");
+          return;
+        }
+        try {
+          await setDoc(
+            doc(db, "usuarios", usuarioActual.uid),
+            { nombre },
+            { merge: true },
+          );
+          document.getElementById("sidebarNombre").textContent = nombre;
+          document.getElementById("sidebarInicial").textContent = nombre
+            .charAt(0)
+            .toUpperCase();
+          document.getElementById("infoNombre").textContent = nombre;
+          document.getElementById("nuevo-nombre").value = "";
+          mostrarOk("nombre-ok");
+        } catch (e) {
+          mostrarError(
+            "nombre-error",
+            "Error al actualizar. Intentá de nuevo.",
+          );
+        }
+      };
+
+      window.cambiarEmail = async function () {
+        const nuevoEmail = document.getElementById("nuevo-email").value.trim();
+        const pass = document.getElementById("email-pass").value;
+        if (!nuevoEmail || !pass) {
+          mostrarError("email-error", "Completá todos los campos");
+          return;
+        }
+        try {
+          const cred = EmailAuthProvider.credential(usuarioActual.email, pass);
+          await reauthenticateWithCredential(usuarioActual, cred);
+          await updateEmail(usuarioActual, nuevoEmail);
+          await setDoc(
+            doc(db, "usuarios", usuarioActual.uid),
+            { email: nuevoEmail },
+            { merge: true },
+          );
+          document.getElementById("sidebarEmail").textContent = nuevoEmail;
+          document.getElementById("infoEmail").textContent = nuevoEmail;
+          document.getElementById("nuevo-email").value = "";
+          document.getElementById("email-pass").value = "";
+          mostrarOk("email-ok");
+        } catch (e) {
+          console.log("Error cambiar email:", e.code, e.message);
+          if (
+            e.code === "auth/wrong-password" ||
+            e.code === "auth/invalid-credential"
+          )
+            mostrarError("email-error", "Contraseña incorrecta");
+          else if (e.code === "auth/email-already-in-use")
+            mostrarError(
+              "email-error",
+              "Ese email ya está en uso por otra cuenta",
+            );
+          else if (e.code === "auth/invalid-email")
+            mostrarError("email-error", "El formato del email no es válido");
+          else if (e.code === "auth/requires-recent-login")
+            mostrarError(
+              "email-error",
+              "Cerrá sesión, volvé a ingresar e intentá cambiar el email",
+            );
+          else if (e.code === "auth/operation-not-allowed")
+            mostrarError(
+              "email-error",
+              "Esta operación no está permitida. Contactá soporte.",
+            );
+          else mostrarError("email-error", `Error: ${e.code}`);
+        }
+      };
+
+      window.cambiarPassword = async function () {
+        const actual = document.getElementById("pass-actual").value;
+        const nueva = document.getElementById("pass-nueva").value;
+        const nueva2 = document.getElementById("pass-nueva2").value;
+
+        if (!actual || !nueva || !nueva2) {
+          mostrarError("pass-error", "Completá todos los campos");
+          return;
+        }
+        if (!passEsValida(nueva)) {
+          mostrarError(
+            "pass-error",
+            "La nueva contraseña no cumple los requisitos de seguridad",
+          );
+          return;
+        }
+        if (nueva !== nueva2) {
+          mostrarError("pass-error", "Las contraseñas no coinciden");
+          return;
+        }
+
+        try {
+          const cred = EmailAuthProvider.credential(
+            usuarioActual.email,
+            actual,
+          );
+          await reauthenticateWithCredential(usuarioActual, cred);
+          await updatePassword(usuarioActual, nueva);
+          document.getElementById("pass-actual").value = "";
+          document.getElementById("pass-nueva").value = "";
+          document.getElementById("pass-nueva2").value = "";
+          mostrarOk("pass-ok");
+        } catch (e) {
+          // fix punto 4 — mensajes específicos
+          if (
+            e.code === "auth/wrong-password" ||
+            e.code === "auth/invalid-credential"
+          )
+            mostrarError("pass-error", "La contraseña actual es incorrecta");
+          else if (e.code === "auth/too-many-requests")
+            mostrarError(
+              "pass-error",
+              "Demasiados intentos. Esperá unos minutos.",
+            );
+          else if (e.code === "auth/weak-password")
+            mostrarError(
+              "pass-error",
+              "La contraseña es muy débil. Usá al menos 8 caracteres.",
+            );
+          else
+            mostrarError(
+              "pass-error",
+              "Error al actualizar. Intentá de nuevo.",
+            );
+        }
+      };
+
+      // fix punto 5 — abre modal estilizado en vez de confirm() nativo
+      window.eliminarCuenta = function () {
+        const pass = document.getElementById("delete-pass").value;
+        if (!pass) {
+          mostrarError("delete-error", "Ingresá tu contraseña para confirmar");
+          return;
+        }
+        document.getElementById("modalEliminar").classList.add("open");
+      };
+
+      window.cerrarModalEliminar = function () {
+        document.getElementById("modalEliminar").classList.remove("open");
+      };
+
+      window.confirmarEliminar = async function () {
+        document.getElementById("modalEliminar").classList.remove("open");
+        const pass = document.getElementById("delete-pass").value;
+        try {
+          const cred = EmailAuthProvider.credential(usuarioActual.email, pass);
+          await reauthenticateWithCredential(usuarioActual, cred);
+          await deleteDoc(doc(db, "usuarios", usuarioActual.uid));
+          await deleteUser(usuarioActual);
+          location.href = "../index.html";
+        } catch (e) {
+          // fix punto 4 — mensajes específicos en eliminar
+          if (
+            e.code === "auth/wrong-password" ||
+            e.code === "auth/invalid-credential"
+          )
+            mostrarError(
+              "delete-error",
+              "Contraseña incorrecta. No se eliminó la cuenta.",
+            );
+          else if (e.code === "auth/too-many-requests")
+            mostrarError(
+              "delete-error",
+              "Demasiados intentos. Esperá unos minutos.",
+            );
+          else if (e.code === "auth/requires-recent-login")
+            mostrarError(
+              "delete-error",
+              "Cerrá sesión, volvé a ingresar e intentá de nuevo.",
+            );
+          else
+            mostrarError(
+              "delete-error",
+              "Error al eliminar. Intentá de nuevo.",
+            );
+        }
+      };
+
+      // Cerrar modal si clickeás afuera
+      document
+        .getElementById("modalEliminar")
+        .addEventListener("click", function (e) {
+          if (e.target === this) window.cerrarModalEliminar();
+        });
+    </script>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo">IronCore</div>
+        <div class="footer-desc">Tu zona de entrenamiento. Todo lo que necesitás para entrenar, calcular y evolucionar.</div>
+        <div class="footer-links">
+          <a href="../pages/ejercicios.html">Ejercicios</a>
+          <a href="../pages/rutinas.html">Rutinas</a>
+          <a href="../pages/calculadoras.html">Calculadoras</a>
+          <a href="../pages/progreso.html">Progreso</a>
+          <a href="../pages/nutricion.html">Nutrición</a>
+          <a href="../pages/chat.html">Chat IA</a>
+        </div>
+      <div class="footer-contacto">¿Consultas o sugerencias? <a href="mailto:tumail@gmail.com">tumail@gmail.com</a></div>
+      <div class="footer-copy">© 2025 IronCore — Hecho con 💪 en Argentina</div>
+    </div>
+   </footer>
+  </body>
+</html>

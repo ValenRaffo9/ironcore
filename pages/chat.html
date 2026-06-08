@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Chat IA</title>
+  <link rel="stylesheet" href="../css/chat.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <meta name="theme-color" content="#ff6a00">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IronCore">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo" onclick="location.href='../index.html'">
+      <span class="logo-iron">IRON</span><span class="logo-core">CORE</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='../index.html'">Inicio</button>
+      <button class="nav-tab" onclick="location.href='ejercicios.html'">Ejercicios</button>
+      <button class="nav-tab" onclick="location.href='rutinas.html'">Rutinas</button>
+      <button class="nav-tab" onclick="location.href='calculadoras.html'">Calculadoras</button>
+      <button class="nav-tab" onclick="location.href='progreso.html'">Progreso</button>
+      <button class="nav-tab" onclick="location.href='nutricion.html'">Nutrición</button>
+      <button class="nav-tab active">Chat IA</button>
+    </div>
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px;position:relative"></div>
+  </nav>
+
+  <!-- PANTALLA DE LOGIN REQUERIDO -->
+  <div id="loginRequerido"
+    style="display:none;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 56px);gap:1rem;text-align:center;padding:2rem">
+    <div style="font-size:48px">🔒</div>
+    <div style="font-size:20px;font-weight:bold;color:#fff">Iniciá sesión para usar el Chat IA</div>
+    <div style="font-size:13px;color:#555;max-width:360px;line-height:1.6">El asistente de entrenamiento está disponible
+      solo para usuarios registrados.</div>
+    <button onclick="location.href='login.html'" style="
+      margin-top:1rem;padding:12px 32px;background:#ff6a00;color:#fff;
+      border:none;border-radius:10px;font-size:14px;font-weight:bold;
+      cursor:pointer;font-family:'Poppins',sans-serif;
+    ">Iniciar sesión</button>
+    <button onclick="location.href='registro.html'" style="
+      padding:10px 32px;background:#141414;border:1px solid #1e1e1e;color:#888;
+      border-radius:10px;font-size:14px;cursor:pointer;font-family:'Poppins',sans-serif;
+    ">Crear cuenta gratis</button>
+  </div>
+
+  <!-- CHAT PRINCIPAL -->
+  <div class="chat-wrap" id="chatPrincipal" style="display:none">
+
+    <div class="chat-sidebar">
+      <div class="chat-sidebar-titulo">Sugerencias</div>
+      <div class="chat-sugerencias">
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Cuántas proteínas necesito por día para ganar
+          músculo?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Cuánto descanso necesito entre series de
+          sentadilla?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Qué como antes y después de entrenar?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Cómo sé si estoy progresando en el
+          gimnasio?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Es mejor entrenar en ayunas o después de
+          comer?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Cuántos días por semana debo entrenar para ganar
+          masa?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Qué es el RIR y cómo lo aplico?</button>
+        <button class="chat-sugerencia" onclick="usarSugerencia(this)">¿Cómo evito el sobreentrenamiento?</button>
+      </div>
+
+      <div class="chat-sidebar-titulo" style="margin-top:1rem">Historial</div>
+      <div id="chatHistorial" style="display:flex;flex-direction:column;gap:6px;overflow-y:auto"></div>
+
+      <button class="chat-nuevo-btn" onclick="nuevaConversacion()">+ Nueva conversación</button>
+    </div>
+
+    <div class="chat-main">
+      <div class="chat-header">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="chat-header-titulo">Asistente IronCore ✨</div>
+            <div class="chat-header-sub">Preguntá sobre entrenamiento, nutrición o recuperación</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button id="lang-es" onclick="cambiarIdioma('es')" style="
+              padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;
+              font-family:'Poppins',sans-serif;border:1px solid #ff6a00;
+              background:rgba(255,106,0,0.1);color:#ff6a00;font-weight:bold;transition:all 0.15s;
+            ">ES</button>
+            <button id="lang-en" onclick="cambiarIdioma('en')" style="
+              padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;
+              font-family:'Poppins',sans-serif;border:1px solid #1e1e1e;
+              background:#141414;color:#666;transition:all 0.15s;
+            ">EN</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-mensajes" id="chatMensajes">
+        <div class="chat-bienvenida">
+          <div class="chat-bienvenida-icono">🏋️</div>
+          <div class="chat-bienvenida-titulo">¿En qué te puedo ayudar?</div>
+          <div class="chat-bienvenida-sub">Soy tu asistente de entrenamiento. Preguntame sobre rutinas, nutrición,
+            técnica, recuperación o cualquier cosa relacionada al gym.</div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <!-- Preview archivo adjunto -->
+        <div class="chat-adjunto-preview" id="adjuntoPreview">
+          <span class="chat-archivo-icono">📎</span>
+          <span class="chat-adjunto-nombre" id="adjuntoNombre"></span>
+          <button class="chat-adjunto-quitar" onclick="quitarAdjunto()">✕</button>
+        </div>
+
+        <div class="chat-input-wrap">
+          <textarea id="chatInput" class="chat-input" placeholder="Escribí tu pregunta..." rows="1" autocomplete="off"
+            onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+          <div class="chat-input-btns">
+            <button class="chat-attach-btn" onclick="document.getElementById('chatFileInput').click()"
+              title="Adjuntar archivo">
+              📎
+            </button>
+            <input type="file" id="chatFileInput" accept=".txt,.pdf,.png,.jpg,.jpeg" onchange="adjuntarArchivo(this)">
+            <button class="chat-send-btn" id="chatSendBtn" onclick="enviarMensaje()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="chat-disclaimer">IronCore IA puede cometer errores. Consultá siempre un profesional para decisiones de
+        salud importantes.</div>
+    </div>
+    </div>
+    
+
+    <script type="module" src="../js/auth-nav.js"></script>
+    <script src="../js/chat.js"></script>
+
+    <script type="module">
+      import { auth, onAuthStateChanged } from '../js/firebase.js';
+      onAuthStateChanged(auth, user => {
+        window.__chatUserId = user ? user.uid : null;
+        if (user) {
+          document.getElementById('loginRequerido').style.display = 'none';
+          document.getElementById('chatPrincipal').style.display = 'grid';
+          renderHistorialChat();
+        } else {
+          document.getElementById('loginRequerido').style.display = 'flex';
+          document.getElementById('chatPrincipal').style.display = 'none';
+        }
+      });
+    </script>
+</body>
+
+</html>

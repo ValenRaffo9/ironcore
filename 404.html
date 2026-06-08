@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronCore - Página no encontrada</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .logo { font-size: 20px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 3rem; cursor: pointer; }
+    .logo span:first-child { color: #fff; }
+    .logo span:last-child  { color: #ff6a00; }
+    .num { font-size: 100px; font-weight: bold; color: #1e1e1e; line-height: 1; margin-bottom: 1rem; }
+    .titulo { font-size: 22px; font-weight: bold; color: #fff; margin-bottom: 8px; }
+    .sub { font-size: 14px; color: #555; margin-bottom: 2rem; max-width: 360px; line-height: 1.6; }
+    .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 24px; background: #ff6a00; color: #fff;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: bold;
+      cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s; text-decoration: none;
+    }
+    .btn:hover { background: #e55e00; transform: translateY(-2px); }
+    .btn.ghost { background: #141414; border: 1px solid #1e1e1e; color: #888; }
+    .btn.ghost:hover { border-color: #ff6a00; color: #ff6a00; }
+  </style>
+</head>
+<body>
+  <div class="logo" onclick="location.href='index.html'"><span>IRON</span><span>CORE</span></div>
+  <div class="num">404</div>
+  <div class="titulo">Página no encontrada</div>
+  <div class="sub">La página que buscás no existe o fue movida. Volvé al inicio y seguí entrenando.</div>
+  <div class="btns">
+    <a href="index.html" class="btn">← Volver al inicio</a>
+    <a href="pages/ejercicios.html" class="btn ghost">Ver ejercicios</a>
+  </div>
+</body>
+</html>
