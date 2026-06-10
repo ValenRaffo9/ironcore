@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IronCore</title>
     <link rel="stylesheet" href="index.css"/>
+    <link rel="stylesheet" href="css/responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
     <link rel="manifest" href="manifest.json">
@@ -17,43 +18,38 @@
 
   <body>
     <nav class="navbar">
-      <div class="nav-logo" onclick="location.href = 'index.html'">
-        <span class="logo-iron">IRON</span><span class="logo-core">CORE</span>
-      </div>
-      <div class="nav-tabs">
-        <a href="index.html" class="nav-tab active">Inicio</a>
-        <button
-          class="nav-tab"
-          onclick="location.href = 'pages/ejercicios.html'"
-        >
-          Ejercicios
-        </button>
-        <button class="nav-tab" onclick="location.href = 'pages/rutinas.html'">
-          Rutinas
-        </button>
-        <button
-          class="nav-tab"
-          onclick="location.href = 'pages/calculadoras.html'"
-        >
-          Calculadoras
-        </button>
-        <button class="nav-tab" onclick="location.href = 'pages/progreso.html'">
-          Progreso
-        </button>
-        <button
-          class="nav-tab"
-          onclick="location.href = 'pages/nutricion.html'"
-        >
-          Nutrición
-        </button>
-        <button class="nav-tab" onclick="location.href = 'pages/chat.html'">
-          Chat IA
-        </button>
-      </div>
-      <div id="nav-user" style="display: flex; align-items: center; gap: 8px">
-        <!-- Se llena con JS -->
-      </div>
-    </nav>
+  <div class="nav-logo" onclick="location.href='index.html'">
+    <span class="logo-iron">IRON</span><span class="logo-core">CORE</span>
+  </div>
+  <div class="nav-tabs">
+    <a href="index.html" class="nav-tab active">Inicio</a>
+    <button class="nav-tab" onclick="location.href='pages/ejercicios.html'">Ejercicios</button>
+    <button class="nav-tab" onclick="location.href='pages/rutinas.html'">Rutinas</button>
+    <button class="nav-tab" onclick="location.href='pages/calculadoras.html'">Calculadoras</button>
+    <button class="nav-tab" onclick="location.href='pages/progreso.html'">Progreso</button>
+    <button class="nav-tab" onclick="location.href='pages/nutricion.html'">Nutrición</button>
+    <button class="nav-tab" onclick="location.href='pages/chat.html'">Chat IA</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div id="nav-user" style="display:flex;align-items:center;gap:8px;position:relative"></div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MENÚ MÓVIL -->
+<div class="nav-menu-movil" id="navMenuMovil">
+  <button class="nav-movil-btn active" onclick="irA('index.html')">🏠 Inicio</button>
+  <button class="nav-movil-btn" onclick="irA('pages/ejercicios.html')">💪 Ejercicios</button>
+  <button class="nav-movil-btn" onclick="irA('pages/rutinas.html')">🏋️ Rutinas</button>
+  <button class="nav-movil-btn" onclick="irA('pages/calculadoras.html')">⚡ Calculadoras</button>
+  <button class="nav-movil-btn" onclick="irA('pages/progreso.html')">📊 Progreso</button>
+  <button class="nav-movil-btn" onclick="irA('pages/nutricion.html')">🥗 Nutrición</button>
+  <button class="nav-movil-btn" onclick="irA('pages/chat.html')">✨ Chat IA</button>
+  <div class="nav-movil-separador"></div>
+  <button class="nav-movil-btn" onclick="irA('pages/perfil.html')">👤 Mi perfil</button>
+</div>
 
     <!-- HERO -->
     <div class="hero">

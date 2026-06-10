@@ -1,0 +1,340 @@
+/* ════════════════════════════════════
+   IRONCORE — RESPONSIVE MÓVIL
+   Agregar en todas las páginas:
+   <link rel="stylesheet" href="../css/responsive.css">
+   (en index.html sin el ../)
+════════════════════════════════════ */
+
+/* ── NAVBAR HAMBURGUESA ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+  z-index: 200;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ── MENÚ MÓVIL ── */
+.nav-menu-movil {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #111;
+  z-index: 150;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  gap: 6px;
+  overflow-y: auto;
+  border-top: 1px solid #1e1e1e;
+}
+
+.nav-menu-movil.open { display: flex; }
+
+.nav-movil-btn {
+  padding: 14px 16px;
+  background: #141414;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  color: #888;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+}
+
+.nav-movil-btn:hover,
+.nav-movil-btn.active { border-color: #ff6a00; color: #ff6a00; background: rgba(255,106,0,0.05); }
+
+.nav-movil-separador {
+  height: 1px;
+  background: #1e1e1e;
+  margin: 6px 0;
+}
+
+@media (max-width: 768px) {
+
+  /* ── NAVBAR ── */
+  .navbar {
+    padding: 0 1rem;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  .nav-tabs { display: none; }
+  .hamburger { display: flex; }
+
+  /* Compensar navbar fija */
+  body { padding-top: 56px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1rem;
+  }
+
+  .page-title { font-size: 20px; }
+  .page-sub   { font-size: 12px; }
+
+  /* ── TABS SCROLLEABLES ── */
+  .prog-tabs,
+  .nutri-tabs,
+  .calc-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0.75rem 1rem;
+    gap: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .prog-tabs::-webkit-scrollbar,
+  .nutri-tabs::-webkit-scrollbar,
+  .calc-tabs::-webkit-scrollbar { display: none; }
+
+  .prog-tab,
+  .nutri-tab,
+  .calc-tab {
+    display: inline-flex;
+    white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .prog-layout,
+  .nutri-layout,
+  .calc-layout {
+    padding: 1rem;
+  }
+
+  /* ── PANEL SECTIONS ── */
+  .panel-section { padding: 1rem; }
+  .panel-titulo  { font-size: 14px; }
+
+  /* ── FORM ROWS ── */
+  .form-row-2 { grid-template-columns: 1fr; gap: 10px; }
+  .medidas-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ── WORKOUT TIPOS ── */
+  .workout-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .workout-tipo-btn {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* ── RESUMEN BAR ── */
+  .resumen-bar {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 1rem;
+  }
+
+  .resumen-num   { font-size: 20px; }
+  .resumen-label { font-size: 10px; }
+
+  /* ── AGUA ── */
+  .agua-cantidad { font-size: 48px; }
+
+  .agua-btns {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* ── CALENDARIO ── */
+  .cal-dia { font-size: 11px; min-height: 44px; }
+  .cal-dia-tipo { display: none; }
+  .cal-dia-cal  { display: none; }
+
+  /* ── HISTORIAL ── */
+  .historial-item { flex-wrap: wrap; gap: 4px; }
+  .historial-item-nota { display: none; }
+
+  /* ── PRs ── */
+  .pr-input-row { flex-direction: column; }
+  .pr-input-row input[type="text"] { width: 100%; }
+
+  /* ── CHART ── */
+  .chart-wrap { height: 200px; }
+
+  /* ── RUTINAS ── */
+  .rutinas-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-sidebar {
+    position: fixed;
+    top: 56px;
+    left: -100%;
+    width: 280px;
+    height: calc(100vh - 56px);
+    z-index: 90;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    border-right: 1px solid #1e1e1e;
+  }
+
+  .filtros-sidebar.open { left: 0; }
+
+  .filtros-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 80;
+    top: 56px;
+  }
+
+  .filtros-overlay.open { display: block; }
+
+  .rutinas-grid { grid-template-columns: 1fr; }
+
+  .rutinas-header-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .rutinas-header-btn { width: 100%; justify-content: center; }
+
+  .terminos-grid { grid-template-columns: 1fr; }
+
+  .filosofia-pilares { grid-template-columns: 1fr; }
+
+  /* ── INDEX ── */
+  .hero { padding: 3rem 1rem; }
+  .hero-title { font-size: 32px; }
+  .hero-sub   { font-size: 13px; }
+  .hero-btns  { flex-direction: column; gap: 10px; }
+  .hero-btn   { width: 100%; text-align: center; }
+
+  .stats-bar { grid-template-columns: repeat(3, 1fr); padding: 1rem; gap: 8px; }
+  .stat-num  { font-size: 22px; }
+
+  .cards-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 1rem; }
+  .card { padding: 1rem; }
+  .card-title { font-size: 13px; }
+
+  .sobre-section { flex-direction: column; padding: 2rem 1rem; }
+  .sobre-imagen  { display: none; }
+
+  .quick-grid { grid-template-columns: 1fr; padding: 0 1rem; gap: 8px; }
+
+  .objetivos-grid { grid-template-columns: 1fr; padding: 0 1rem; gap: 10px; }
+
+  .banner-visual { grid-template-columns: 1fr; height: auto; }
+  .banner-item   { height: 180px; }
+  .banner-btn    { opacity: 1; transform: none; }
+
+  /* ── CALCULADORAS ── */
+  .form-row { grid-template-columns: 1fr; }
+  .calc-nutri-wrap { grid-template-columns: 1fr; }
+  .calc-nutri-resultado { position: static; }
+  .resultado-grid { grid-template-columns: 1fr 1fr; }
+  .resultado-grid.tres { grid-template-columns: 1fr; }
+
+  /* ── EJERCICIOS ── */
+  .ejercicios-layout { grid-template-columns: 1fr; }
+
+  .ejercicios-sidebar {
+    position: fixed;
+    top: 56px;
+    left: -100%;
+    width: 280px;
+    height: calc(100vh - 56px);
+    z-index: 90;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+
+  .ejercicios-sidebar.open { left: 0; }
+
+  .ejercicios-grid { grid-template-columns: 1fr; }
+
+  /* ── CHAT ── */
+  .chat-wrap { grid-template-columns: 1fr; height: calc(100vh - 56px); }
+  .chat-sidebar { display: none; }
+  .chat-main { height: 100%; }
+
+  /* ── PERFIL ── */
+  .perfil-wrap { grid-template-columns: 1fr; }
+  .perfil-sidebar { border-right: none; border-bottom: 1px solid #1e1e1e; padding: 1rem; }
+  .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .sidebar-btn { width: auto; font-size: 12px; padding: 8px 12px; }
+  .perfil-content { padding: 1rem; }
+  .info-grid { grid-template-columns: 1fr; }
+
+  /* ── AUTH ── */
+  .auth-card { padding: 1.5rem 1rem; }
+  body.auth-page-body { padding-top: 0; }
+
+  /* ── FOOTER ── */
+  .footer { padding: 2rem 1rem; }
+  .footer-links { gap: 1rem; }
+  .footer-links a { font-size: 12px; }
+
+  /* ── INPUTS TÁCTILES ── */
+  input, select, textarea, button {
+    font-size: 16px !important; /* Evita zoom en iOS */
+  }
+
+  .num-arrow { min-height: 22px; }
+  .prog-btn, .calc-btn, .auth-btn { padding: 14px; font-size: 15px; }
+}
+
+.filtros-movil-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .filtros-movil-btn {
+    display: flex;
+    width: 100%;
+    padding: 12px;
+    background: #141414;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    color: #888;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+  .filtros-movil-btn:hover { border-color: #ff6a00; color: #ff6a00; }
+}
